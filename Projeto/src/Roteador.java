@@ -1,5 +1,3 @@
-package roteador;
-
 import java.util.ArrayList; // Necessário para usar listas
 
 public abstract class Roteador {
@@ -8,6 +6,17 @@ public abstract class Roteador {
     protected String modelo;
     protected String gateway;
     protected double preco;
+    protected static int totalDispositivosConectados = 0;  //inicia zero
+    //Composição com Wifi
+    protected WIFI wifi;
+    //Agregação com Host
+    Host[]host = new Host[100]; //roteador pode ou não ter vários hosts/dispositivos conectados
+
+    public  Roteador(){
+        wifi = new WIFI();  //chamo construtor da classe que faz comppsição
+    }
+
+    //válido para cada instância que surge a partir da classes herdadas de roteador
 
     // Lista para guardar os IPs atribuídos
     protected ArrayList<String> ipsAtribuidos = new ArrayList<>();
@@ -15,48 +24,57 @@ public abstract class Roteador {
     // Lista para guardar os Urls bloqueados
     protected ArrayList<String> urlsBloqueadas = new ArrayList<>();
 
-    // Criando o construtor Roteador
+
+
+
+    // Criando o construtor Roteador(junto com wi fi)
     public Roteador(String marca, String modelo, double preco, String gateway) {
         this.marca = marca;
         this.modelo = modelo;
         this.preco = preco;
         this.gateway = gateway;
+        this.wifi = new WIFI();
     }
 
     // Criando metodo para atribuir IP
-    public void atribuirIP(String ip) {
-        ipsAtribuidos.add(ip); // chamando o array list para adicionar novos ips atribuídos
-        System.out.println("O roteador " + this.modelo + " atribuiu o IP: " + ip);
-    }
+    public abstract void atribuirIP(String ip);
+    //IMPLEMTNAR NA FILHA ASSIM
+     //ipsAtribuidos.add(ip); // chamando o array list para adicionar novos ips atribuídos
+        //System.out.println("O roteador " + this.modelo + " atribuiu o IP: " + ip);
+
+    //fazendo a conta do total de dispositivos conectados
+    //totalDispositivosConectados++;
 
     // Criando metodo para Bloquear site
-    public void bloquearSite(String url){
-        urlsBloqueadas.add(url);
-        System.out.println("Acesso negado: O site " + url + " foi adicionado à lista de bloqueio.");
-    }
+    public abstract void bloquearSite(String url);
+    //Implementar na filha
+     //urlsBloqueadas.add(url);
+    //System.out.println("Acesso negado: O site " + url + " foi adicionado à lista de bloqueio.");
 
     // Criando metodo para Alterar IP
-    public void atualizarIP(String ip){
-        this.gateway = ip;
-        System.out.println("Gateway atualizado com sucesso, para: " + this.gateway);
+    public abstract void atualizarIP(String ip);
+    //IMPLEMENTAR NA FILHA
+    //this.gateway = ip;
+    //System.out.println("Gateway atualizado com sucesso, para: " + this.gateway);
+
+    public abstract void conectar(String ip) throws ExcecaoAtribuirIP;//obrigado a tratar exceção
+
+    //IMPLEMENTAR NA FILHA
+    //verifico se o IP está atribuido
+        //if(ipsAtribuidos.contains(ip)){
+        //throw new ExcecaoAtribuirIP("Erro ! O dispositivo já está conectado!");
+    //}else {
+        //System.out.println("Conectado com sucesso!");
+        //this.atribuirIP(ip);
+    //}
+
+
+    //Pertence a classe geral
+    //Cada dipositivo que um roteador tipo x conectar vai conta
+    public static int getTotalDispositivosConectados(){
+        return totalDispositivosConectados;
     }
 
-    // fazer try catch dps
-    public void conectar(String ip){
-        if (ipsAtribuidos.contains(ip)) { // Se na lista de ips atribuidos conter o ip, mostra o erro
-            System.out.println("Erro: O dispositivo com IP " + ip + " já está conectado ao " + this.modelo);
-        } else {
-            // 2. Se não estiver, chamamos o metodo de atribuir o IP
-            System.out.println("Iniciando protocolo de conexão para o IP: " + ip);
-            atribuirIP(ip); // Passa o papel de atribuir o ip para o metodo "atribuir ip" e passa apenas o ip de parâmetro: uma função ajudando outra
-            System.out.println("Conexão estabelecida com sucesso!");
-        }
-    }
-
-    public int dispositivosConectados() {
-        // Retorna o tamanho da lista diretamente, sem criar variáveis intermediárias
-        return ipsAtribuidos.size();
-    }
     
     // Getter para exibir marca
     public String getMarca() {

@@ -24,9 +24,6 @@ public abstract class Roteador {
     // Lista para guardar os Urls bloqueados
     protected ArrayList<String> urlsBloqueadas = new ArrayList<>();
 
-
-
-
     // Criando o construtor Roteador(junto com wi fi)
     public Roteador(String marca, String modelo, double preco, String gateway) {
         this.marca = marca;

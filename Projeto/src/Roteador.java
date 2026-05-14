@@ -12,10 +12,6 @@ public abstract class Roteador {
     //Agregação com Host
     Host[]host = new Host[100]; //roteador pode ou não ter vários hosts/dispositivos conectados
 
-    public  Roteador(){
-        wifi = new WIFI();  //chamo construtor da classe que faz comppsição
-    }
-
     //válido para cada instância que surge a partir da classes herdadas de roteador
 
     // Lista para guardar os IPs atribuídos

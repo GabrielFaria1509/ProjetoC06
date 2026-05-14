@@ -44,7 +44,7 @@ Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as respon
   * Criação da lógica de escopo de memória (variáveis e métodos estáticos para o contador global de dispositivos).
   * Desenvolvimento da lógica interna dos métodos operacionais (`conectar`, `atribuirIP`, `bloquearSite` e `atualizarIP`).
  
-    * **Gabriel Faria** - CLasse Roteador
+* **Gabriel Faria** - CLasse Roteador
   * Modelagem e design majoritário do diagrama UML da arquitetura.
   * Implementação do tratamento de exceções (`try/catch`) para a segurança das conexões.
   * Estruturação da relação de Agregação com a classe `Host`.

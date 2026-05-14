@@ -36,7 +36,7 @@ O coração do sistema é a classe `Roteador.java`. Ela foi projetada seguindo a
 
   ## 👥 Autores e Contribuições
 
-Este projeto foi desenvolvido colaborativamente em dupla. Abaixo estão as responsabilidades e implementações principais de cada desenvolvedor:
+Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as responsabilidades e implementações principais de cada desenvolvedor:
 
 * **[Nome do seu Amigo]** - CLasse Roteador
   * Modelagem e design majoritário do diagrama UML da arquitetura.

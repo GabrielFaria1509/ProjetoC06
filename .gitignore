@@ -1,0 +1,16 @@
+#TODO: Remember to stop the tracking for the .idea/ and the .iml files that were already committed 
+## Java build artifacts
+*.class
+
+## Build directories
+out/
+bin/
+
+## IDE
+*.iml
+.idea/
+.vscode/
+
+## OS files
+.DS_Store
+Thumbs.db

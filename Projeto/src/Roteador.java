@@ -1,5 +1,3 @@
-package Casa;
-
 import java.util.ArrayList; // Necessário para usar listas
 //banana
 public abstract class Roteador {

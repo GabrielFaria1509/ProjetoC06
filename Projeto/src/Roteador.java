@@ -9,7 +9,7 @@ public abstract class Roteador {
     protected static int totalDispositivosConectados = 0;  //inicia zero
     //Composição com Wifi
     protected WIFI wifi;
-    //Agregação com Host
+    //Agregação com Casa.Host
     Host[]host = new Host[100]; //roteador pode ou não ter vários hosts/dispositivos conectados
 
     //válido para cada instância que surge a partir da classes herdadas de roteador
@@ -20,7 +20,7 @@ public abstract class Roteador {
     // Lista para guardar os Urls bloqueados
     protected ArrayList<String> urlsBloqueadas = new ArrayList<>();
 
-    // Criando o construtor Roteador(junto com wi fi)
+    // Criando o construtor Casa.Roteador(junto com wi fi)
     public Roteador(String marca, String modelo, double preco, String gateway) {
         this.marca = marca;
         this.modelo = modelo;
@@ -55,7 +55,7 @@ public abstract class Roteador {
     //IMPLEMENTAR NA FILHA
     //verifico se o IP está atribuido
         //if(ipsAtribuidos.contains(ip)){
-        //throw new ExcecaoAtribuirIP("Erro ! O dispositivo já está conectado!");
+        //throw new Casa.ExcecaoAtribuirIP("Erro ! O dispositivo já está conectado!");
     //}else {
         //System.out.println("Conectado com sucesso!");
         //this.atribuirIP(ip);

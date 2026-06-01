@@ -1,3 +1,5 @@
+package Casa;
+
 public class RoteadorPortatil extends Roteador {
 
     // Atributos específicos da classe segundo o UML
@@ -46,7 +48,7 @@ public class RoteadorPortatil extends Roteador {
         }
     }
 
-    // --- Métodos Específicos do RoteadorPortatil (Segundo o UML) ---
+    // --- Métodos Específicos do Casa.RoteadorPortatil (Segundo o UML) ---
 
     public boolean alertarBateriaFraca() {
         // Exemplo de lógica: se a bateria estiver abaixo de 15%, dispara o alerta

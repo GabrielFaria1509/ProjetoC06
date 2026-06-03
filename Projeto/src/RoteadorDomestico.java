@@ -107,8 +107,15 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
         System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
     }
 
+    //The Roteador expects that this will be used for checking if the ip is already assigned, but it would make more sense to be a way to connect to the wifi, otherwise. wifi would never really be used.
+    //TODO: talk about with the group AND point out that it would be cooler to shown the Wifi velocity when connecting
     @Override
-    public void conectar(String ip) throws ExcecaoAtribuirIP{}
+    public void conectar(String ip) throws ExcecaoAtribuirIP{//The AtribuirIP method alredy handle this, and it makes more sense to be there, this will also need to change, the name is not ok
+        if(senhaWifi == null || senhaWifi.isEmpty()){
+            throw new ExcecaoAtribuirIP("A senha não foi configurada");
+        }
+        System.out.println("Conectado com sucesso ao roteador " + this.getModelo());
+    }
 
     //interface methods
     @Override
@@ -130,5 +137,13 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
 
     public String getIpRoteador() {
         return ipRoteador;
+    }
+
+    public void setSenhaWifi(String senhaWifi) {
+        this.senhaWifi = senhaWifi;
+    }
+
+    public String getSenhaWifi() {
+        return senhaWifi;
     }
 }

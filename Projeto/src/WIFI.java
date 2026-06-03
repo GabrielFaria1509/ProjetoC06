@@ -1,5 +1,3 @@
-package Casa;
-
 public class WIFI { // Se o seu arquivo físico chama WIFI.java, a classe fica assim
 
     protected double velocidade;

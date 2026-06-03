@@ -123,11 +123,14 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
 
     //interface methods
     @Override
-    public void montarUnidadeUSB(double capacidade) {}
+    public void montarUnidadeUSB(double capacidade) {
+        System.out.println("Unidade USB montada com capacidade de " + capacidade + " GB");
+    }
 
     @Override
     public boolean ejetarUnidade() {
-        return false;
+        System.out.println("Unidade USB ejetada com sucesso");
+        return true;
     }
 
     //getters and setters

@@ -91,7 +91,11 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
     }
 
     @Override
-    public void bloquearSite(String url){}
+    public void bloquearSite(String url){
+        urlsBloqueadas.add(url);
+        System.out.println("O site " + url + " foi bloqueado com sucesso");
+        //TODO: add some integration with the controlePArental later
+    }
 
     @Override
     public void atualizarIP(String ip){

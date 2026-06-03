@@ -64,14 +64,30 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
             System.out.println("O IP " + ipRoteador + " possui o protocolo TCP"); //I REFUSE to use a todo again... This method is the one that returns the protocol, but the rest of the code uses "cat" and "pig", this needs to change!);
             return Protocolo.PIG;
         }
+
+        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
         return Protocolo.CAT;
     }
 
     //superclass methods
     //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
+    //TODO: implement the exeptions handling on RoteadorPortatil
     @Override
     public void atribuirIP(String ip){
+        try{
+            gerarIP();
 
+            if(ipRoteador == null){
+                throw new ExcecaoAtribuirIP("O roteador ainda não tem um IP atribuído");
+            }
+
+            ipsAtribuidos.add(ipRoteador);
+            System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador doméstico " + this.getModelo() + " com sucesso!");
+            totalDispositivosConectados++;
+
+        } catch (ExcecaoAtribuirIP e) {
+            System.out.println("Erro ao atribuir IP: " + e.getMessage());
+        }
     }
 
     @Override

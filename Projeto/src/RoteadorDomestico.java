@@ -44,10 +44,10 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
             int ipHost = random.nextInt(253)+2;
             String ipTemporario = "192.168.1." + ipHost; 
 
-            //TODO: see if it would be more apropriate to use try catch here
             if(ipTemporario != this.gateway && !ipsAtribuidos.contains(ipTemporario)){
                 this.ipRoteador = ipTemporario;
                 System.out.println("o IP " + ipRoteador + " foi atribuído ao roteador com sucesso!");
+                return;
             }else if(ipTemporario.equals(this.gateway)){
                 System.out.println("O IP " + ipTemporario + " não pode ser atribuído ao roteador, pois é o mesmo do gateway. Tentando outro IP...");
 

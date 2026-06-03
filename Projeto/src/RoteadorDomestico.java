@@ -7,6 +7,7 @@ import java.util.Random;
 public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
     private String senhaWifi;
     private boolean controleParentalAtivo;
+    private String ipRoteador;
 
     public RoteadorDomestico(String marca, String modelo, double preco, String gateway, String senhaWifi, boolean controleParentalAtivo, String ipRoteador) {
         super(marca, modelo, preco, gateway);
@@ -16,7 +17,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
     }
 
     public void ativarControleParental(){
-        //TO-DO: show this to Lidia, because it still doesn't make sense to me to have a method that only prints something...
+        //TODO: show this to Lidia, because it still doesn't make sense to me to have a method that only prints something...
         if (controleParentalAtivo) {
             System.out.println("O controle parental foi ativado com sucesso. Agora você terá acesso ao que a sua criança acessar e conseguirá bloquear conteudos indesejados.");
         } else {
@@ -24,6 +25,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
         }
     }
 
+    //TODO: Pass this to the superclass, it's the same for every router
     private List<String>lerArquivosIPs(){
         try{
             return Files.readAllLines(Paths.get("Projeto/arquivo.txt"));
@@ -33,8 +35,31 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
         }
     }
 
+    private void gerarIP(){
+        Random random = new Random();
+        int tentativas = 0;
+
+        while (tentativas < 50){
+            int ipHost = random.nextInt(253)+2;
+            String ipTemporario = "192.168.1." + ipHost; 
+
+            //TODO: see if it would be more apropriate to use try catch here
+            if(ipTemporario != this.gateway && !ipsAtribuidos.contains(ipTemporario)){
+                this.ipRoteador = ipTemporario;
+                System.out.println("o IP " + ipRoteador + " foi atribuído ao roteador com sucesso!");
+            }else if(ipTemporario.equals(this.gateway)){
+                System.out.println("O IP " + ipTemporario + " não pode ser atribuído ao roteador, pois é o mesmo do gateway. Tentando outro IP...");
+
+            }else if(ipsAtribuidos.contains(ipTemporario)){
+                System.out.println("O IP " + ipTemporario + " já está atribuído a outro dispositivo. Tentando outro IP...");
+            }
+
+            tentativas++;
+        }
+    }
+
     //superclass methods
-    //TO-DO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
+    //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
     @Override
     public void atribuirIP(String ip){
 

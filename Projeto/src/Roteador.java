@@ -30,7 +30,7 @@ public abstract class Roteador {
     }
 
     // Criando metodo para atribuir IP
-    public abstract void atribuirIP(String ip);
+    public abstract void atribuirIP(String ip) throws ExcecaoAtribuirIP;
     //IMPLEMTNAR NA FILHA ASSIM
      //ipsAtribuidos.add(ip); // chamando o array list para adicionar novos ips atribuídos
         //System.out.println("O roteador " + this.modelo + " atribuiu o IP: " + ip);

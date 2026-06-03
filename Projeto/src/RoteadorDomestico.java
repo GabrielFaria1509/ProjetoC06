@@ -94,7 +94,18 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
     public void bloquearSite(String url){}
 
     @Override
-    public void atualizarIP(String ip){}
+    public void atualizarIP(String ip){
+        String ipAnterior = ipRoteador;
+        gerarIP();
+
+        if(ipRoteador == null){
+            throw new IllegalStateException("Não foi possível gerar o novo IP");
+        }
+
+        ipsAtribuidos.remove(ipAnterior);
+        ipsAtribuidos.add(ipRoteador);
+        System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
+    }
 
     @Override
     public void conectar(String ip) throws ExcecaoAtribuirIP{}

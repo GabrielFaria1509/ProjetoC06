@@ -1,5 +1,3 @@
-package Casa;
-
 // IMPORTANTE: Implementar Runnable para o Host poder rodar como Thread
 public class Host implements Runnable {
 

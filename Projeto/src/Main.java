@@ -1,5 +1,3 @@
-package Casa;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("====== INICIANDO SIMULAÇÃO COM ROTEADOR REAL ======\n");

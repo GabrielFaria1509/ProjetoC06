@@ -1,5 +1,3 @@
-package Casa;
-
 public class RoteadorPortatil extends Roteador {
 
     // Atributos específicos da classe segundo o UML

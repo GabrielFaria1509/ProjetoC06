@@ -35,6 +35,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
         }
     }
 
+    //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help)
     private void gerarIP(){
         Random random = new Random();
         int tentativas = 0;
@@ -56,6 +57,14 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
 
             tentativas++;
         }
+    }
+
+    public Protocolo verificarProtocoloIP(){
+        if(lerArquivosIPs().contains(ipRoteador)){
+            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP"); //I REFUSE to use a todo again... This method is the one that returns the protocol, but the rest of the code uses "cat" and "pig", this needs to change!);
+            return Protocolo.PIG;
+        }
+        return Protocolo.CAT;
     }
 
     //superclass methods
@@ -90,5 +99,9 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
 
     public void setControleParentalAtivo(boolean controleParentalAtivo) {
         this.controleParentalAtivo = controleParentalAtivo;
+    }
+
+    public String getIpRoteador() {
+        return ipRoteador;
     }
 }

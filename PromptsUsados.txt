@@ -1,7 +1,7 @@
 Já comecei desenvolvimento de código com a minha
 equipe,apenas verifique o que está errado.Eu e meu
 amigo estamos fazendo apenas a classe de roteador por
-enquanto,então não estranhe Casa.WIFI e HOST estarem
+enquanto,então não estranhe Casa.classes.WIFI e HOST estarem
 deslocados.Altere o mínimo possível,mantenha nossa lógica e siga o UML
 
 esses métodos concretos deixe como abstratos,siga o UML

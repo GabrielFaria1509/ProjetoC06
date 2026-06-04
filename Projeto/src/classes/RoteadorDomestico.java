@@ -1,10 +1,17 @@
+package classes;
+
+import enumns.Protocolo;
+import interfaces.CompartilhamentoUSB;
+import tratamentoexcecoes.ExcecaoAtribuirIP;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
+
+public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     private String senhaWifi;
     private boolean controleParentalAtivo;
     private String ipRoteador;
@@ -71,7 +78,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
 
     //superclass methods
     //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
-    //TODO: implement the exeptions handling on RoteadorPortatil
+    //TODO: implement the exeptions handling on classesfilhas.RoteadorPortatil
     @Override
     public void atribuirIP(String ip){
         try{
@@ -83,7 +90,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
 
             ipsAtribuidos.add(ipRoteador);
             System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador doméstico " + this.getModelo() + " com sucesso!");
-            totalDispositivosConectados++;
+            Roteador.totalDispositivosConectados++;
 
         } catch (ExcecaoAtribuirIP e) {
             System.out.println("Erro ao atribuir IP: " + e.getMessage());
@@ -111,7 +118,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB{
         System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
     }
 
-    //The Roteador expects that this will be used for checking if the ip is already assigned, but it would make more sense to be a way to connect to the wifi, otherwise. wifi would never really be used.
+    //The classes.Roteador expects that this will be used for checking if the ip is already assigned, but it would make more sense to be a way to connect to the wifi, otherwise. wifi would never really be used.
     //TODO: talk about with the group AND point out that it would be cooler to shown the Wifi velocity when connecting
     @Override
     public void conectar(String ip) throws ExcecaoAtribuirIP{//The AtribuirIP method alredy handle this, and it makes more sense to be there, this will also need to change, the name is not ok

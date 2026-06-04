@@ -1,8 +1,14 @@
 package classes;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoLeituraArquivos;
 import tratamentoexcecoes.ExcecaoRemoverIP;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList; // Necessário para usar listas
+import java.util.List;
+
 //banana
 public abstract class Roteador {
     // Criando os atributos protegidos
@@ -33,8 +39,17 @@ public abstract class Roteador {
         this.wifi = new WIFI();
     }
 
-    //Criando metodo para ler arquivo.txt
-    public abstract  void lerArquivosIPs();
+    //Criando metodo para ler arquivo.txt e devolver um vetor com cada IP
+    public String[] lerArquivosIPs() throws ExcecaoLeituraArquivos{
+        String caminho = "arquivo.txt";
+
+        try{
+            List<String> linhas = Files.readAllLines(Paths.get(caminho));
+            return linhas.toArray(new  String[0]);
+        } catch (IOException e){
+            throw new ExcecaoLeituraArquivos("Falha ao ler o arquivo.txt: " + e.getMessage());
+        }
+    }
 
     //Criando metodo para criarIP
     public abstract void gerarIP();

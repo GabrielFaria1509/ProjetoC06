@@ -44,7 +44,7 @@ public class RoteadorPortatil extends Roteador {
             throw new ExcecaoAtribuirIP("Erro! O dispositivo já está conectado!");
         } else {
             System.out.println("Conectando dispositivo...");
-            this.atribuirIP(ip); // Chama o método para adicionar e contabilizar
+            this.atribuirIP(ip); // Chama o metodo para adicionar e contabilizar
             System.out.println("Conectado com sucesso!");
         }
     }

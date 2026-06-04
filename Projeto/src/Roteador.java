@@ -61,6 +61,18 @@ public abstract class Roteador {
         //this.atribuirIP(ip);
     //}
 
+    // Criando metodo para desconectar um IP da rede
+    public void desconectar(String ip) {
+        // 1. Verifica se o IP realmente está conectado na lista atual
+        if (this.ipsAtribuidos.contains(ip)) {
+            this.ipsAtribuidos.remove(ip); // 2. Remove o IP da lista do roteador
+            totalDispositivosConectados--; // 3. Subtrai 1 do contador estático global
+            System.out.println("Sucesso: O dispositivo com IP " + ip + " foi desconectado.");
+        } else {
+            // Se tentar desconectar um IP que não existe, exibe o erro
+            System.out.println("Erro: Não foi possível desconectar. O IP " + ip + " não está conectado neste roteador.");
+        }
+    }
 
     //Pertence a classe geral
     //Cada dipositivo que um roteador tipo x conectar vai conta

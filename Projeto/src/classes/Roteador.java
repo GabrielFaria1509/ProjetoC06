@@ -33,6 +33,12 @@ public abstract class Roteador {
         this.wifi = new WIFI();
     }
 
+    //Criando metodo para ler arquivo.txt
+    public abstract  void lerArquivosIPs();
+
+    //Criando metodo para criarIP
+    public abstract void gerarIP();
+
     // Criando metodo para atribuir IP
     public abstract void atribuirIP(String ip) throws ExcecaoAtribuirIP;
 

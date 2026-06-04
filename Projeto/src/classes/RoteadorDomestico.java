@@ -43,6 +43,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     }
 
     //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help)
+
     private void gerarIP(){
         Random random = new Random();
         int tentativas = 0;

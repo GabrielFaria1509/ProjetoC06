@@ -68,18 +68,21 @@ public abstract class Roteador {
     public abstract void conectar(String ip) throws ExcecaoAtribuirIP;//obrigado a tratar exceção
 
     // Criando metodo para desconectar um IP da rede
-    public void desconectar(String ip) {
-        // 1. Verifica se o IP realmente está conectado na lista atual
-        try {
-            if (ipsAtribuidos.contains(ip)) {
-                ipsAtribuidos.remove(ip);
-                totalDispositivosConectados--;
-            }
-        }catch (ExcecaoRemoverIP e){
-            System.out.println("Erro ao desconectar,IP inexistente" + e.getMessage());
-        }
+    public abstract void desconectar(String ip) throws  ExcecaoRemoverIP; //obrigado a tratar exceção
 
-    }
+    //{
+        //TODO IMPLMENTAR NAS FILHAS
+        //1. Verifica se o IP realmente está conectado na lista atual
+        //try {
+            //if (ipsAtribuidos.contains(ip)) {
+               // ipsAtribuidos.remove(ip);
+                //totalDispositivosConectados--;
+            //}
+        //}catch (ExcecaoRemoverIP e){
+            //System.out.println("Erro ao desconectar,IP inexistente" + e.getMessage());
+        //}
+
+    //}
 
     //Pertence a classe geral
     //Cada dipositivo que um roteador tipo x conectar vai conta

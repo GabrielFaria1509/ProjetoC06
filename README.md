@@ -38,15 +38,16 @@ O coração do sistema é a classe `Casa.classes.Roteador.java`. Ela foi projeta
 
 Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as responsabilidades e implementações principais de cada desenvolvedor:
 
-* **André Alves Araújo** - CLasse Casa.classes.Roteador
-  * Desenvolvimento de toda a estrutura base e lógica de negócio da classe mãe `Casa.classes.Roteador`.
+* **André Alves Araújo** - Classe Roteador
+  * Desenvolvimento de toda a estrutura base e lógica de negócio da classe mãe `Roteador`.
   * Implementação do encapsulamento rígido (atributos protegidos e criação dos Getters).
   * Criação da lógica de escopo de memória (variáveis e métodos estáticos para o contador global de dispositivos).
   * Desenvolvimento da lógica interna dos métodos operacionais (`conectar`, `atribuirIP`, `bloquearSite` e `atualizarIP`).
  
-* **Gabriel Faria** - CLasse Casa.classes.Roteador
+* **Gabriel Faria** - Classe Roteador
   * Modelagem e design majoritário do diagrama UML da arquitetura.
   * Implementação do tratamento de exceções (`try/catch`) para a segurança das conexões.
-  * Estruturação da relação de Agregação com a classe `Casa.classes.Host`.
+  * Estruturação da relação de Agregação com a classe `Host`.
+  * Implementação de métodos abstratos como desconectar em Roteador
   * Estruturação da relação de Composição com a classe `Casa.classes.WIFI`, incluindo a adaptação avançada do construtor da superclasse.
   * Definição e assinatura dos métodos que as classes filhas (subclasses) irão implementar.

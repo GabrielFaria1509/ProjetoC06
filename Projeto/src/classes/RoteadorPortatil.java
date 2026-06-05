@@ -52,27 +52,20 @@ public class RoteadorPortatil extends Roteador {
     }
 
     @Override
-    public void conectar(String ip) {
-
-        try {
-            // Verifica se o IP já está na lista de atribuídos
-            if (ipsAtribuidos.contains(ip)) {
-                throw new ExcecaoAtribuirIP("Erro! O dispositivo com IP " + ip + " já está conectado!");
-            } else {
-                System.out.println("Conectando dispositivo...");
-                this.atribuirIP(ip); // Pode lançar ExcecaoAtribuirIP
-                System.out.println("Conectado com sucesso!");
-            }
-        } catch (ExcecaoAtribuirIP e) {
-            // Tratando a exceção localmente 
-            System.err.println("Aviso de Conexão: " + e.getMessage());
+    public void conectar(String ip) throws ExcecaoAtribuirIP {
+        // Verifica se o IP já está na lista de atribuídos
+        if (ipsAtribuidos.contains(ip)) {
+            throw new ExcecaoAtribuirIP("Erro! O dispositivo com IP " + ip + " já está conectado!");
         }
+        System.out.println("Conectando dispositivo...");
+        this.atribuirIP(ip); // Pode lançar ExcecaoAtribuirIP
+        System.out.println("Conectado com sucesso!");
+
     }
 
-    @Override
-    public void desconectar(String ip) {
 
-        try {
+    @Override
+    public void desconectar(String ip) throws ExcecaoRemoverIP {
             if (ipsAtribuidos.contains(ip)) {
                 ipsAtribuidos.remove(ip);
                 Roteador.totalDispositivosConectados--;
@@ -80,10 +73,7 @@ public class RoteadorPortatil extends Roteador {
             } else {
                 throw new ExcecaoRemoverIP("Erro! O IP " + ip + " não foi encontrado na rede.");
             }
-        } catch (ExcecaoRemoverIP e) {
-            // Tratando a exceção localmente
-            System.err.println("Aviso de Desconexão: " + e.getMessage());
-        }
+
     }
 
     // Métodos do RoteadorPortatil

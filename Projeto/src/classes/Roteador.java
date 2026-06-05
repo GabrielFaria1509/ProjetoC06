@@ -40,6 +40,7 @@ public abstract class Roteador {
     }
 
     //Criando metodo para ler arquivo.txt e devolver um vetor com cada IP
+    //Throws é para sinalizar que deve tratar exceção ou quem chama o metodo use try catch
     public String[] lerArquivosIPs() throws ExcecaoLeituraArquivos{
         String caminho = "arquivo.txt";
 
@@ -69,20 +70,6 @@ public abstract class Roteador {
 
     // Criando metodo para desconectar um IP da rede
     public abstract void desconectar(String ip) throws  ExcecaoRemoverIP; //obrigado a tratar exceção
-
-    //{
-        //TODO IMPLMENTAR NAS FILHAS
-        //1. Verifica se o IP realmente está conectado na lista atual
-        //try {
-            //if (ipsAtribuidos.contains(ip)) {
-               // ipsAtribuidos.remove(ip);
-                //totalDispositivosConectados--;
-            //}
-        //}catch (ExcecaoRemoverIP e){
-            //System.out.println("Erro ao desconectar,IP inexistente" + e.getMessage());
-        //}
-
-    //}
 
     //Pertence a classe geral
     //Cada dipositivo que um roteador tipo x conectar vai conta

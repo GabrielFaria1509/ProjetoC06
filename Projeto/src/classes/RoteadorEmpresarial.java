@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.Random;
+import tratamentoexcecoes.ExcecaoAtribuirIP;
 
 public class RoteadorEmpresarial extends Roteador {
     private String licencaFirewall;
@@ -40,5 +41,25 @@ public class RoteadorEmpresarial extends Roteador {
             tentativas++;
         }
     }
+
+    //TODO: try to show then that ip is just NOT being used anywhere
+    @Override
+    public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
+        try{
+            gerarIP();
+
+            if(ipRoteador == null){
+                throw new ExcecaoAtribuirIP("O roteador ainda não tem um IP atribuído");
+            }
+
+            ipsAtribuidos.add(ipRoteador);
+            System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador empresarial " + this.getModelo() + " com sucesso!");
+            Roteador.totalDispositivosConectados++;
+
+        } catch (ExcecaoAtribuirIP e) {
+            System.out.println("Erro ao atribuir IP: " + e.getMessage());
+        }
+    }
+    
     //interface methods
 }

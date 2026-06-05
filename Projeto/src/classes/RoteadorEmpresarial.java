@@ -23,8 +23,8 @@ public class RoteadorEmpresarial extends Roteador {
         int tentativas = 0;
 
         while (tentativas < 50){
-            int sufix = random.nextInt(253)+2;
-            String ipTemporario = "10.0.0." + sufix; 
+            int suffix = random.nextInt(253)+2;
+            String ipTemporario = "10.0.0." + suffix; 
 
             if(ipTemporario != this.gateway && !ipsAtribuidos.contains(ipTemporario)){
                 this.ipRoteador = ipTemporario;

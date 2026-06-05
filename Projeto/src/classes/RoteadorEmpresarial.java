@@ -60,6 +60,12 @@ public class RoteadorEmpresarial extends Roteador {
             System.out.println("Erro ao atribuir IP: " + e.getMessage());
         }
     }
-    
+
+    @Override//I truly envy their ability to make mistakes and not even realize it, why use polymorphism here if is the same for EVERY subclass? 
+    //TODO: turn this into an acctual polymorfic method
+    public void bloquearSite(String url){
+        urlsBloqueadas.add(url);
+        System.out.println("O site " + url + " foi bloqueado com sucesso na rede empresarial");
+    }
     //interface methods
 }

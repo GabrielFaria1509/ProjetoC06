@@ -1,5 +1,7 @@
 package classes;
+
 import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoRemoverIP;
 
 public class RoteadorPortatil extends Roteador {
 
@@ -7,17 +9,29 @@ public class RoteadorPortatil extends Roteador {
     private double nivelBateria;
     private String operadora;
 
-    // Construtor herdando os atributos da classe mãe e adicionando os específicos
+    // Construtor herdando os atributos da classe mãe e adicionando específicos
     public RoteadorPortatil(String marca, String modelo, double preco, String gateway, double nivelBateria, String operadora) {
         super(marca, modelo, preco, gateway);
         this.nivelBateria = nivelBateria;
         this.operadora = operadora;
     }
 
-    // --- Implementação dos Métodos Abstratos da Classe Mãe ---
+
 
     @Override
-    public void atribuirIP(String ip) {
+    public void gerarIP() {
+        // Exemplo simples de geração de IP dinâmico
+        String novoIp = "192.168.1." + (ipsAtribuidos.size() + 2);
+        System.out.println("IP gerado pelo roteador portátil: " + novoIp);
+    }
+
+    @Override
+    public void atribuirIP(String ip) throws ExcecaoAtribuirIP {
+        // Validação opcional para disparar a exceção se o IP for inválido ou nulo
+        if (ip == null || ip.isEmpty()) {
+            throw new ExcecaoAtribuirIP("Falha ao atribuir: IP inválido.");
+        }
+
         ipsAtribuidos.add(ip);
         System.out.println("O roteador portátil " + this.getModelo() + " atribuiu o IP: " + ip);
 
@@ -38,21 +52,43 @@ public class RoteadorPortatil extends Roteador {
     }
 
     @Override
-    public void conectar(String ip) throws ExcecaoAtribuirIP {
-        // Verifica se o IP já está na lista de atribuídos
-        if (ipsAtribuidos.contains(ip)) {
-            throw new ExcecaoAtribuirIP("Erro! O dispositivo já está conectado!");
-        } else {
-            System.out.println("Conectando dispositivo...");
-            this.atribuirIP(ip); // Chama o metodo para adicionar e contabilizar
-            System.out.println("Conectado com sucesso!");
+    public void conectar(String ip) {
+
+        try {
+            // Verifica se o IP já está na lista de atribuídos
+            if (ipsAtribuidos.contains(ip)) {
+                throw new ExcecaoAtribuirIP("Erro! O dispositivo com IP " + ip + " já está conectado!");
+            } else {
+                System.out.println("Conectando dispositivo...");
+                this.atribuirIP(ip); // Pode lançar ExcecaoAtribuirIP
+                System.out.println("Conectado com sucesso!");
+            }
+        } catch (ExcecaoAtribuirIP e) {
+            // Tratando a exceção localmente 
+            System.err.println("Aviso de Conexão: " + e.getMessage());
         }
     }
 
-    // --- Métodos Específicos do Casa.classesfilhas.RoteadorPortatil (Segundo o UML) ---
+    @Override
+    public void desconectar(String ip) {
+
+        try {
+            if (ipsAtribuidos.contains(ip)) {
+                ipsAtribuidos.remove(ip);
+                Roteador.totalDispositivosConectados--;
+                System.out.println("Dispositivo com IP " + ip + " desconectado com sucesso.");
+            } else {
+                throw new ExcecaoRemoverIP("Erro! O IP " + ip + " não foi encontrado na rede.");
+            }
+        } catch (ExcecaoRemoverIP e) {
+            // Tratando a exceção localmente
+            System.err.println("Aviso de Desconexão: " + e.getMessage());
+        }
+    }
+
+    // Métodos do RoteadorPortatil
 
     public boolean alertarBateriaFraca() {
-        // Exemplo de lógica: se a bateria estiver abaixo de 15%, dispara o alerta
         if (this.nivelBateria < 15.0) {
             System.out.println("Alerta: Bateria fraca (" + this.nivelBateria + "%)!");
             return true;
@@ -62,11 +98,10 @@ public class RoteadorPortatil extends Roteador {
 
     public boolean conectarRedeCelular() {
         System.out.println("Conectando à rede celular da operadora " + this.operadora + "...");
-        // Simulação de conexão bem-sucedida
         return true;
     }
 
-    // --- Getters e Setters para os atributos específicos (Opcional, mas boa prática) ---
+    // --- Getters e Setters ---
 
     public double getNivelBateria() {
         return nivelBateria;
@@ -84,4 +119,3 @@ public class RoteadorPortatil extends Roteador {
         this.operadora = operadora;
     }
 }
-

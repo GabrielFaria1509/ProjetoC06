@@ -46,9 +46,13 @@ public class RoteadorEmpresarial extends Roteador {
     @Override
     public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
         try{
+            if (licencaFirewall == null || licencaFirewall.isEmpty()) {
+                throw new ExcecaoAtribuirIP("O roteador empresarial não possui uma licença de firewall válida.");
+            }
+
             gerarIP();
 
-            if(ipRoteador == null){
+            if(ipRoteador == null){//I believe that this should be an "IlleagalStateException"...
                 throw new ExcecaoAtribuirIP("O roteador ainda não tem um IP atribuído");
             }
 
@@ -67,5 +71,6 @@ public class RoteadorEmpresarial extends Roteador {
         urlsBloqueadas.add(url);
         System.out.println("O site " + url + " foi bloqueado com sucesso na rede empresarial");
     }
+
     //interface methods
 }

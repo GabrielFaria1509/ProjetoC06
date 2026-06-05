@@ -52,6 +52,39 @@ Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as respon
   * Estruturação da relação de Composição com a classe `WIFI`, incluindo a adaptação avançada do construtor da superclasse.
   * Definição e assinatura dos métodos que as classes filhas (subclasses) irão implementar.
  
-* Prompts usados
-  * Estruturação do metódo responsável pela leitura do arquivo.txt,gerando um array com essa leitura.
-  * Organização dos pacotes na pasta do projeto.
+🤖 Uso de Inteligência Artificial (Declaração de Transparência)
+Durante o desenvolvimento das classes de rede e do roteador, utilizamos o assistente virtual Gemini para auxiliar na compreensão de conceitos de Programação Orientada a Objetos (POO) e no tratamento correto de exceções em Java. Nenhuma lógica de negócio principal foi gerada pela IA; o uso foi estritamente focado em arquitetura de código, sintaxe e code review (revisão de código).
+
+Abaixo está o histórico de prompts e os conceitos discutidos:
+
+Prompt 1: "Como faço mesmo o método para ler esses arquivos.txt e devolver uma variável que é uma array de String ? Sendo que cada elemento desse array é uma linha do arquivo.txt" (Acompanhado da imagem da assinatura do método lerArquivosIPs).
+
+Resultado: Discussão sobre a classe java.nio.file.Files, o uso de Files.readAllLines e a conversão de List<String> para String[].
+
+Prompt 2: (Envio de imagem mostrando os erros de compilação Unhandled exception: java.io.IOException e Missing return statement na IDE).
+
+Resultado: Explicação sobre a obrigatoriedade do Java em tratar exceções nativas de I/O e a necessidade de todos os caminhos de um método retornarem um valor.
+
+Prompt 3: "ok ok,porque uso new String[0] ? quero retornar um vetor de Strings"
+
+Resultado: Esclarecimento sobre o conceito de Type Erasure no Java e como a JVM otimiza a criação de vetores usando [0] como parâmetro de tipagem no método .toArray().
+
+Prompt 4: "Estava analisando essa parte do meu colega, e acho que por ter o throws no método dessa classe filha, o certo seria usar try catch e não if else, correto ?" (Acompanhado de imagem do método atribuirIP lançando exceção personalizada).
+
+Resultado: Validação do uso de if/throw para regras de negócio (disparo de erro) e delegação do try-catch (captura do erro) para a classe principal.
+
+Prompt 5: "Então esse try catch desse metódo da filha devia tá na main ,correto ?" (Acompanhado de imagens comparando o método conectar com a classe Main).
+
+Resultado: Confirmação da arquitetura correta de exceções: classes de modelo lançam o erro (throws), e classes controladoras ou a Main tratam o erro (try-catch).
+
+Prompt 6 e 7: "Esse método é da classe mãe Roteador,eu que fiz,veja se está certo.Ele não é abstrato mesmo" e "esse try catch com throws no próprio metódo então está certo msm ? e como assim as classes herdadas ganham esse metódo de graça ?"
+
+Resultado: Validação da técnica de "Tradução de Exceção" (capturar um IOException nativo e lançar uma ExcecaoLeituraArquivos do próprio sistema). Discussão sobre reuso de código e como métodos concretos na classe mãe evitam duplicação de código nas classes filhas.
+
+Prompt 8: "então o abstrato é legal usar quando quero que a classe filha faça algo mais específico né"
+
+Resultado: Consolidação do conceito de métodos abstratos (abstract) como contratos, forçando as classes filhas a implementarem lógicas específicas (como o método gerarIP, que varia por tecnologia).
+
+Prompt 9: "desconectar está com mesmo problema do conectar de antes né" (Acompanhado de imagem do método desconectar).
+
+Resultado: Correção final de code review, aplicando os conceitos aprendidos sobre delegação de exceções para refatorar o método desconectar, removendo o try-catch indevido e aplicando o throws.

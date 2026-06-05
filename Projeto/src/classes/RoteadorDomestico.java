@@ -69,7 +69,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
     //TODO: implement the exeptions handling on classesfilhas.RoteadorPortatil
     @Override
-    public void atribuirIP(String ip){
+    public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
         try{
             gerarIP();
 

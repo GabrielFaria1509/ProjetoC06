@@ -101,4 +101,13 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
         System.out.println("Unidade USB ejetada com sucesso");
         return true;
     }
+
+    //getters and setters
+    public String getLicencaFirewall() {
+        return licencaFirewall;
+    }
+
+    public void setLicencaFirewall(String licencaFirewall) {
+        this.licencaFirewall = licencaFirewall;
+    }
 }

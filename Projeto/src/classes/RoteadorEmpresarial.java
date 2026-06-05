@@ -46,7 +46,7 @@ public class RoteadorEmpresarial extends Roteador {
     @Override
     public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
         try{
-            if (licencaFirewall == null || licencaFirewall.isEmpty()) {
+            if (licencaFirewall == null || licencaFirewall.trim().isEmpty()) {
                 throw new ExcecaoAtribuirIP("O roteador empresarial não possui uma licença de firewall válida.");
             }
 
@@ -72,5 +72,22 @@ public class RoteadorEmpresarial extends Roteador {
         System.out.println("O site " + url + " foi bloqueado com sucesso na rede empresarial");
     }
 
+    @Override
+    public void atualizarIP(String ip){
+        if (this.licencaFirewall == null || this.licencaFirewall.trim().isEmpty()) {
+            throw new IllegalStateException("O roteador empresarial não possui uma licença de firewall válida. Não é possível atualizar o IP.");
+        }
+
+        String ipAnterior = ipRoteador;
+        gerarIP();
+
+        if(ipRoteador == null){
+            throw new IllegalStateException("Não foi possível gerar o novo IP");
+        }
+
+        ipsAtribuidos.remove(ipAnterior);
+        ipsAtribuidos.add(ipRoteador);
+        System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
+    }
     //interface methods
 }

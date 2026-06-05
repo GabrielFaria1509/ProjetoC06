@@ -51,8 +51,10 @@ Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as respon
   * Implementação de métodos abstratos como desconectar em Roteador
   * Estruturação da relação de Composição com a classe `WIFI`, incluindo a adaptação avançada do construtor da superclasse.
   * Definição e assinatura dos métodos que as classes filhas (subclasses) irão implementar.
- 
-🤖 Uso de Inteligência Artificial (Declaração de Transparência)
+
+
+Uso de Inteligência Artificial 
+
 Durante o desenvolvimento das classes de rede e do roteador, utilizamos o assistente virtual Gemini para auxiliar na compreensão de conceitos de Programação Orientada a Objetos (POO) e no tratamento correto de exceções em Java. Nenhuma lógica de negócio principal foi gerada pela IA; o uso foi estritamente focado em arquitetura de código, sintaxe e code review (revisão de código).
 
 Abaixo está o histórico de prompts e os conceitos discutidos:

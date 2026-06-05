@@ -30,15 +30,15 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
 
 
 
-    //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help)
-
-    private void gerarIP(){
+    //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help), I will only erase this todo when we finish this corrections
+    @Override
+    public void gerarIP(){
         Random random = new Random();
         int tentativas = 0;
 
         while (tentativas < 50){
-            int ipHost = random.nextInt(253)+2;
-            String ipTemporario = "192.168.1." + ipHost; 
+            int suffix = random.nextInt(253)+2;
+            String ipTemporario = "192.168.1." + suffix; 
 
             if(ipTemporario != this.gateway && !ipsAtribuidos.contains(ipTemporario)){
                 this.ipRoteador = ipTemporario;
@@ -136,10 +136,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
 
     public void setControleParentalAtivo(boolean controleParentalAtivo) {
         this.controleParentalAtivo = controleParentalAtivo;
-    }
-
-    public String getIpRoteador() {
-        return ipRoteador;
     }
 
     public void setSenhaWifi(String senhaWifi) {

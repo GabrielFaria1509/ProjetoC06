@@ -1,9 +1,10 @@
 package classes;
 
 import java.util.Random;
+import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
 
-public class RoteadorEmpresarial extends Roteador {
+public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB {
     private String licencaFirewall;
     private String ipRoteador;
 
@@ -90,4 +91,14 @@ public class RoteadorEmpresarial extends Roteador {
         System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
     }
     //interface methods
+    @Override
+    public void montarUnidadeUSB(double capacidade) {
+        System.out.println("Unidade USB montada com capacidade de " + capacidade + " GB");
+    }
+
+    @Override
+    public boolean ejetarUnidade() {
+        System.out.println("Unidade USB ejetada com sucesso");
+        return true;
+    }
 }

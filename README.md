@@ -51,5 +51,7 @@ Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as respon
   * Implementação de métodos abstratos como desconectar em Roteador
   * Estruturação da relação de Composição com a classe `WIFI`, incluindo a adaptação avançada do construtor da superclasse.
   * Definição e assinatura dos métodos que as classes filhas (subclasses) irão implementar.
+ 
+* Prompts usados
   * Estruturação do metódo responsável pela leitura do arquivo.txt,gerando um array com essa leitura.
   * Organização dos pacotes na pasta do projeto.

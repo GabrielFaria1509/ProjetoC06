@@ -1,7 +1,7 @@
 package classes;
 
-import tratamentoexcecoes.ExcecaoAtribuirIP;
-import tratamentoexcecoes.ExcecaoRemoverIP;
+import tratamentoexcecoes.ExcecaoAtribuirHOST;
+import tratamentoexcecoes.ExcecaoRemoverHOST;
 
 public class RoteadorPortatil extends Roteador {
 
@@ -26,10 +26,10 @@ public class RoteadorPortatil extends Roteador {
     }
 
     @Override
-    public void atribuirIP(String ip) throws ExcecaoAtribuirIP {
+    public void atribuirIP(String ip) throws ExcecaoAtribuirHOST {
         // Validação opcional para disparar a exceção se o IP for inválido ou nulo
         if (ip == null || ip.isEmpty()) {
-            throw new ExcecaoAtribuirIP("Falha ao atribuir: IP inválido.");
+            throw new ExcecaoAtribuirHOST("Falha ao atribuir: IP inválido.");
         }
 
         ipsAtribuidos.add(ip);
@@ -52,10 +52,10 @@ public class RoteadorPortatil extends Roteador {
     }
 
     @Override
-    public void conectar(String ip) throws ExcecaoAtribuirIP {
+    public void conectar(String ip) throws ExcecaoAtribuirHOST {
         // Verifica se o IP já está na lista de atribuídos
         if (ipsAtribuidos.contains(ip)) {
-            throw new ExcecaoAtribuirIP("Erro! O dispositivo com IP " + ip + " já está conectado!");
+            throw new ExcecaoAtribuirHOST("Erro! O dispositivo com IP " + ip + " já está conectado!");
         }
         System.out.println("Conectando dispositivo...");
         this.atribuirIP(ip); // Pode lançar ExcecaoAtribuirIP
@@ -65,13 +65,13 @@ public class RoteadorPortatil extends Roteador {
 
 
     @Override
-    public void desconectar(String ip) throws ExcecaoRemoverIP {
+    public void desconectar(String ip) throws ExcecaoRemoverHOST {
             if (ipsAtribuidos.contains(ip)) {
                 ipsAtribuidos.remove(ip);
                 Roteador.totalDispositivosConectados--;
                 System.out.println("Dispositivo com IP " + ip + " desconectado com sucesso.");
             } else {
-                throw new ExcecaoRemoverIP("Erro! O IP " + ip + " não foi encontrado na rede.");
+                throw new ExcecaoRemoverHOST("Erro! O IP " + ip + " não foi encontrado na rede.");
             }
 
     }

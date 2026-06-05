@@ -1,7 +1,7 @@
 package classes;
-import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
-import tratamentoexcecoes.ExcecaoRemoverIP;
+import tratamentoexcecoes.ExcecaoRemoverHOST;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,7 +56,7 @@ public abstract class Roteador {
     public abstract void gerarIP();
 
     // Criando metodo para atribuir IP
-    public abstract void atribuirIP(String ip) throws ExcecaoAtribuirIP;
+    public abstract void atribuirIP(String ip) throws ExcecaoAtribuirHOST;
 
 
     // Criando metodo para Bloquear site
@@ -66,10 +66,10 @@ public abstract class Roteador {
     public abstract void atualizarIP(String ip);
 
 
-    public abstract void conectar(String ip) throws ExcecaoAtribuirIP;//obrigado a tratar exceção
+    public abstract void conectar(Host novohostS) throws ExcecaoAtribuirHOST;//obrigado a tratar exceção
 
-    // Criando metodo para desconectar um IP da rede
-    public abstract void desconectar(String ip) throws  ExcecaoRemoverIP; //obrigado a tratar exceção
+    //
+    public abstract void desconectar(Host novohost) throws ExcecaoRemoverHOST; //obrigado a tratar exceção
 
     //Pertence a classe geral
     //Cada dipositivo que um roteador tipo x conectar vai conta

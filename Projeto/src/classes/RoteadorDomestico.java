@@ -2,12 +2,8 @@ package classes;
 
 import enumns.Protocolo;
 import interfaces.CompartilhamentoUSB;
-import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoAtribuirHOST;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 
 
@@ -32,15 +28,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         }
     }
 
-    //TODO: Pass this to the superclass, it's the same for every router
-    private List<String>lerArquivosIPs(){
-        try{
-            return Files.readAllLines(Paths.get("Projeto/arquivo.txt"));
-        }catch(IOException e){
-            System.out.println("Erro ao ler lista de ips: " + e.getMessage());
-            return List.of();
-        }
-    }
+
 
     //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help)
 
@@ -86,14 +74,14 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
             gerarIP();
 
             if(ipRoteador == null){
-                throw new ExcecaoAtribuirIP("O roteador ainda não tem um IP atribuído");
+                throw new ExcecaoAtribuirHOST("O roteador ainda não tem um IP atribuído");
             }
 
             ipsAtribuidos.add(ipRoteador);
             System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador doméstico " + this.getModelo() + " com sucesso!");
             Roteador.totalDispositivosConectados++;
 
-        } catch (ExcecaoAtribuirIP e) {
+        } catch (ExcecaoAtribuirHOST e) {
             System.out.println("Erro ao atribuir IP: " + e.getMessage());
         }
     }
@@ -122,9 +110,9 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     //The classes.Roteador expects that this will be used for checking if the ip is already assigned, but it would make more sense to be a way to connect to the wifi, otherwise. wifi would never really be used.
     //TODO: talk about with the group AND point out that it would be cooler to shown the Wifi velocity when connecting
     @Override
-    public void conectar(String ip) throws ExcecaoAtribuirIP{//The AtribuirIP method alredy handle this, and it makes more sense to be there, this will also need to change, the name is not ok
+    public void conectar(String ip) throws ExcecaoAtribuirHOST {//The AtribuirIP method alredy handle this, and it makes more sense to be there, this will also need to change, the name is not ok
         if(senhaWifi == null || senhaWifi.isEmpty()){
-            throw new ExcecaoAtribuirIP("A senha não foi configurada");
+            throw new ExcecaoAtribuirHOST("A senha não foi configurada");
         }
         System.out.println("Conectado com sucesso ao roteador " + this.getModelo());
     }

@@ -1,4 +1,5 @@
 package classes;
+import tratamentoexcecoes.ExcecaoAtrbuirIP;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
 import tratamentoexcecoes.ExcecaoRemoverHOST;
@@ -56,7 +57,7 @@ public abstract class Roteador {
     public abstract void gerarIP();
 
     // Criando metodo para atribuir IP
-    public abstract void atribuirIP(String ip) throws ExcecaoAtribuirHOST;
+    public abstract void atribuirIP(String ip) throws ExcecaoAtrbuirIP;
 
 
     // Criando metodo para Bloquear site

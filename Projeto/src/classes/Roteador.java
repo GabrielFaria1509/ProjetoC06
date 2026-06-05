@@ -1,4 +1,5 @@
 package classes;
+import enumns.Protocolo;
 import tratamentoexcecoes.ExcecaoAtrbuirIP;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList; // Necessário para usar listas
 import java.util.List;
+import java.util.Arrays;
 
 //banana
 public abstract class Roteador {
@@ -51,6 +53,20 @@ public abstract class Roteador {
         } catch (IOException e){
             throw new ExcecaoLeituraArquivos("Falha ao ler o arquivo.txt: " + e.getMessage());
         }
+    }
+
+    // 1 e 3: Adicionado o parâmetro (String ipRoteador) e o aviso da exceção (throws)
+    public Protocolo verificarProtocoloIP(String ipRoteador) throws ExcecaoLeituraArquivos {
+
+        // 2: Arrays.asList() transforma o vetor em uma lista temporária para usar o .contains()
+        if(Arrays.asList(lerArquivosIPs()).contains(ipRoteador)){
+
+            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP");
+            return Protocolo.PIG;
+        }
+
+        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
+        return Protocolo.CAT;
     }
 
     //Criando metodo para criarIP

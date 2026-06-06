@@ -5,6 +5,7 @@ import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
+import tratamentoexcecoes.ExcecaoRemoverHOST;
 
 import java.util.Random;
 
@@ -132,6 +133,22 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         if(!hostConectado){
             throw new ExcecaoAtribuirHOST("Erro: não há portas disponíveis para conectar o host");
         }
+    }
+
+    @Override
+    public void desconectar(Host hostRemovido) throws ExcecaoRemoverHOST {
+        for (int i = 0; i < this.host.length; i++){
+            if(this.host[i] == hostRemovido){
+
+                ipsAtribuidos.remove(this.host[i].getIp());
+                this.host[i] = null;
+
+                System.out.println("Host " + hostRemovido.getNome() + " desconectado com sucesso.");
+                return;
+            
+            }
+        }
+        throw new ExcecaoRemoverHOST("O host " + hostRemovido.getNome() + " não está conectado a este roteador domestico.");
     }
 
     //interface methods

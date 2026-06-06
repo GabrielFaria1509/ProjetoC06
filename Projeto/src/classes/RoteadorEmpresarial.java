@@ -136,7 +136,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
 
                 ipsAtribuidos.remove(this.host[i].getIp());
                 this.host[i] = null;
-                Roteador.totalDispositivosConectados--;
 
                 System.out.println("Host " + hostRemovido.getNome() + " desconectado com sucesso.");
                 return;

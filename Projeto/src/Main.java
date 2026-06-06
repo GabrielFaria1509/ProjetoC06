@@ -1,6 +1,6 @@
 import classes.Host;
 import classes.RoteadorPortatil;
-import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoAtribuirHOST;
 
 public class Main {
     public static void main(String[] args) {
@@ -36,7 +36,7 @@ public class Main {
             Thread threadCelular = new Thread(celularDoPai);
             threadCelular.start();
 
-        } catch (ExcecaoAtribuirIP e) {
+        } catch (ExcecaoAtribuirHOST e) {
             // Se o IP já existisse, o seu roteador portátil trataria o erro aqui
             System.out.println("⚠️ Falha na simulação: " + e.getMessage());
         }

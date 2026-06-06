@@ -1,13 +1,16 @@
 package classes;
-import tratamentoexcecoes.ExcecaoAtribuirIP;
+import enumns.Protocolo;
+import tratamentoexcecoes.ExcecaoAtrbuirIP;
+import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
-import tratamentoexcecoes.ExcecaoRemoverIP;
+import tratamentoexcecoes.ExcecaoRemoverHOST;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList; // Necessário para usar listas
 import java.util.List;
+import java.util.Arrays;
 
 //banana
 public abstract class Roteador {
@@ -52,11 +55,25 @@ public abstract class Roteador {
         }
     }
 
+    // 1 e 3: Adicionado o parâmetro (String ipRoteador) e o aviso da exceção (throws)
+    public Protocolo verificarProtocoloIP(String ipRoteador) throws ExcecaoLeituraArquivos {
+
+        // 2: Arrays.asList() transforma o vetor em uma lista temporária para usar o .contains()
+        if(Arrays.asList(lerArquivosIPs()).contains(ipRoteador)){
+
+            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP");
+            return Protocolo.PIG;
+        }
+
+        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
+        return Protocolo.CAT;
+    }
+
     //Criando metodo para criarIP
     public abstract void gerarIP();
 
     // Criando metodo para atribuir IP
-    public abstract void atribuirIP(String ip) throws ExcecaoAtribuirIP;
+    public abstract void atribuirIP(String ip) throws ExcecaoAtrbuirIP;
 
 
     // Criando metodo para Bloquear site
@@ -66,10 +83,10 @@ public abstract class Roteador {
     public abstract void atualizarIP(String ip);
 
 
-    public abstract void conectar(String ip) throws ExcecaoAtribuirIP;//obrigado a tratar exceção
+    public abstract void conectar(Host novohostS) throws ExcecaoAtribuirHOST;//obrigado a tratar exceção
 
-    // Criando metodo para desconectar um IP da rede
-    public abstract void desconectar(String ip) throws  ExcecaoRemoverIP; //obrigado a tratar exceção
+    //
+    public abstract void desconectar(Host novohost) throws ExcecaoRemoverHOST; //obrigado a tratar exceção
 
     //Pertence a classe geral
     //Cada dipositivo que um roteador tipo x conectar vai conta

@@ -129,3 +129,18 @@ Resposta: Você tem toda a razão e peço desculpas pela nossa confusão! Me deu
 Prompt 7: "host é o equipamento que se conecta né?"
 
 Resposta: Sim, exatamente! Em redes de computadores, o termo Host (que significa "hospedeiro") representa qualquer equipamento ou dispositivo que está conectado à rede, possui um endereço IP próprio e é capaz de enviar ou receber dados.
+
+
+Luis:
+Prompt 1: o código da classe RoteadorPortatil, fiquei com uma dúvida no método conectar(). Por que o IP é gerado antes de verificar se já está em uso? Não seria mais eficiente checar primeiro?
+
+Resposta Boa pergunta! Esse comportamento é intencional e reflete como roteadores reais funcionam no modelo DHCP dinâmico.
+
+O fluxo no método conectar() segue essa ordem:
+
+    gerarIP() → cria "192.168.1.(150 + n)"
+    verificar colisão → checa ipsAtribuidos
+    atribuirIP() → adiciona à lista
+    configurarConexao() → configura o Host A razão para gerar antes de checar é que o IP precisa existir para ser verificado. O método gerarIP() calcula o valor baseado no tamanho atual da lista (ipsAtribuidos.size() + 150), e só depois esse valor gerado é confrontado com os IPs já ocupados.
+
+Se a checagem fosse feita antes, o que você verificaria? Ainda não haveria um IP concreto para comparar.

@@ -1,7 +1,12 @@
 package classes;
 
 import java.util.Random;
+
+import enums.Protocolo;
 import interfaces.CompartilhamentoUSB;
+import tratamentoexcecoes.ExcecaoAtribuirHOST;
+import tratamentoexcecoes.ExcecaoLeituraArquivos;
+import tratamentoexcecoes.ExcecaoVerificarProtocolo;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
 
 public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB {
@@ -18,7 +23,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
     //unique methods
 
     //superclass methods
-    //TODO: remember to alter the domestic router!! And since we will be using host we cant use ipHost in here. (My dear coleague's are sure that we are ALREDY using host, they didn't even bother to read THEIR OWN code, so I'm sure that they won't read this comment, but right now, Host is not being implemented anywhere, neither is Wifi)
     @Override
     public void gerarIP(){
         Random random = new Random();
@@ -43,7 +47,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
         }
     }
 
-    //TODO: try to show then that ip is just NOT being used anywhere
     @Override
     public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
         try{
@@ -66,7 +69,7 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
         }
     }
 
-    @Override//I truly envy their ability to make mistakes and not even realize it, why use polymorphism here if is the same for EVERY subclass? 
+    @Override
     //TODO: turn this into an acctual polymorfic method
     public void bloquearSite(String url){
         urlsBloqueadas.add(url);
@@ -90,6 +93,46 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
         ipsAtribuidos.add(ipRoteador);
         System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
     }
+
+    @Override
+    public void conectar(Host novoHost) throws ExcecaoAtribuirHOST {
+        if (this.licencaFirewall == null || this.licencaFirewall.trim().isEmpty()) {
+            throw new IllegalStateException("O roteador empresarial não possui uma licença de firewall válida. Não é possível conectar o host.");
+        }
+
+        try{
+            this.atribuirIP(null);
+        }catch(ExcecaoAtribuirIP e){
+            throw new ExcecaoAtribuirHOST(e.getMessage());
+        }
+
+        boolean hostConectado = false;
+
+        for (int i = 0; i < this.host.length; i++){
+            if(this.host[i] == null){
+                this.host[i] = novoHost;
+
+                try {
+                    Protocolo protocoloValidado = verificarProtocoloIP(this.ipRoteador);
+                    int pingDefinido = (protocoloValidado == Protocolo.PIG) ? 32 : 100;
+                    this.host[i].configurarConexao(this.ipRoteador, protocoloValidado.name(), pingDefinido);
+                    
+                } catch (ExcecaoLeituraArquivos e) {
+                    throw new ExcecaoAtribuirHOST("Falha ao configurar a rede no Host: " + e.getMessage());
+                }
+
+                System.out.println("Host " + novoHost.getNome() + " conectado com sucesso ao roteador" + this.getModelo());
+                new Thread(this.host[i]).start();
+                hostConectado = true;
+                break;
+            }
+        }
+
+        if(!hostConectado){
+            throw new ExcecaoAtribuirHOST("Erro: não há portas disponíveis para conectar o host");
+        }
+    }
+
     //interface methods
     @Override
     public void montarUnidadeUSB(double capacidade) {

@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList; // Necessário para usar listas
 import java.util.List;
+
+import enums.Protocolo;
+
 import java.util.Arrays;
 
 //banana
@@ -15,7 +18,6 @@ public abstract class Roteador {
     protected String modelo;
     protected String gateway;
     protected double preco;
-    protected double velocidade_roteador;
     protected static int totalDispositivosConectados = 0;  //inicia zero
     //Composição com Wifi
     protected WIFI wifi;
@@ -53,28 +55,24 @@ public abstract class Roteador {
     }
 
     // 1 e 3: Adicionado o parâmetro (String ipRoteador) e o aviso da exceção (throws)
-    public void verificarProtocoloIP(String ipRoteador) throws ExcecaoVerificarProtocolo {
+    public Protocolo verificarProtocoloIP(String ipRoteador) throws ExcecaoLeituraArquivos {
 
-        try {
-            // 2: Arrays.asList() transforma o vetor em uma lista temporária para usar o .contains()
-            if (Arrays.asList(lerArquivosIPs()).contains(ipRoteador)) {
+        // 2: Arrays.asList() transforma o vetor em uma lista temporária para usar o .contains()
+        if(Arrays.asList(lerArquivosIPs()).contains(ipRoteador)){
 
-                System.out.println("O IP " + ipRoteador + " possui o protocolo TCP");
-            } else {
-                System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
-            }
-
-
-        }catch(ExcecaoLeituraArquivos e){
-            throw new ExcecaoVerificarProtocolo("Falha ao verificar protocolo do IP " + ipRoteador + " porque o arquivo não pôde ser lido: " + e.getMessage());
+            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP");
+            return Protocolo.PIG;
         }
+
+        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
+        return Protocolo.CAT;
     }
 
     //Criando metodo para criarIP
     public abstract void gerarIP();
 
     // Criando metodo para atribuir IP
-    public abstract void atribuirIP(String ip) throws ExcecaoAtrbuirIP;
+    public abstract void atribuirIP(String ip) throws ExcecaoAtribuirIP;
 
 
     // Criando metodo para Bloquear site

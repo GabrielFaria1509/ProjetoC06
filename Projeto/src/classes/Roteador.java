@@ -1,9 +1,5 @@
 package classes;
-import enumns.Protocolo;
-import tratamentoexcecoes.ExcecaoAtrbuirIP;
-import tratamentoexcecoes.ExcecaoAtribuirHOST;
-import tratamentoexcecoes.ExcecaoLeituraArquivos;
-import tratamentoexcecoes.ExcecaoRemoverHOST;
+import tratamentoexcecoes.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +15,7 @@ public abstract class Roteador {
     protected String modelo;
     protected String gateway;
     protected double preco;
+    protected double velocidade_roteador;
     protected static int totalDispositivosConectados = 0;  //inicia zero
     //Composição com Wifi
     protected WIFI wifi;
@@ -56,17 +53,21 @@ public abstract class Roteador {
     }
 
     // 1 e 3: Adicionado o parâmetro (String ipRoteador) e o aviso da exceção (throws)
-    public Protocolo verificarProtocoloIP(String ipRoteador) throws ExcecaoLeituraArquivos {
+    public void verificarProtocoloIP(String ipRoteador) throws ExcecaoVerificarProtocolo {
 
-        // 2: Arrays.asList() transforma o vetor em uma lista temporária para usar o .contains()
-        if(Arrays.asList(lerArquivosIPs()).contains(ipRoteador)){
+        try {
+            // 2: Arrays.asList() transforma o vetor em uma lista temporária para usar o .contains()
+            if (Arrays.asList(lerArquivosIPs()).contains(ipRoteador)) {
 
-            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP");
-            return Protocolo.PIG;
+                System.out.println("O IP " + ipRoteador + " possui o protocolo TCP");
+            } else {
+                System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
+            }
+
+
+        }catch(ExcecaoLeituraArquivos e){
+            throw new ExcecaoVerificarProtocolo("Falha ao verificar protocolo do IP " + ipRoteador + " porque o arquivo não pôde ser lido: " + e.getMessage());
         }
-
-        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
-        return Protocolo.CAT;
     }
 
     //Criando metodo para criarIP

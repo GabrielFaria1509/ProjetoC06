@@ -53,6 +53,14 @@ Este projeto foi desenvolvido colaborativamente em gupo. Abaixo estão as respon
   * Definição e assinatura dos métodos que as classes filhas (subclasses) irão implementar.
   * Estruturação do metódo responsável pela leitura do arquivo.txt,gerando um array com essa leitura.
   * Organização dos pacotes na pasta do projeto.
+ 
+* **Guilherme Carvalho** - Classe Host e WIFI
+  * Estruturação da relação de Composição com a classe WIFI, garantindo o controle do ciclo de vida pela classe mãe.
+  * Desenvolvimento da lógica (if/else) na classe WIFI para o cálculo da latência (pingMs) conforme o modelo do roteador.
+  * Implementação da interface Runnable na classe Host para habilitar concorrência no envio simultâneo de pacotes.
+  * Criação do método configurarConexao na classe Host, garantindo a injeção segura dos dados de rede gerados pelo Roteador.
+  * Implementação do TCP no método run() da classe Host para simular a transmissão estável, ordenada e confiável.
+  * Implementação do UDP no método run() da classe Host para simular a perda de pacotes e a instabilidade real do protocolo.
 
 Uso de Inteligência Artificial
 
@@ -91,3 +99,33 @@ Resultado: Consolidação do conceito de métodos abstratos (abstract) como cont
 Prompt 9: "desconectar está com mesmo problema do conectar de antes né" (Acompanhado de imagem do método desconectar).
 
 Resultado: Correção final de code review, aplicando os conceitos aprendidos sobre delegação de exceções para refatorar o método desconectar, removendo o try-catch indevido e aplicando o throws.
+
+Guilherme Carvalho: utilizado o Gemini para fazer a parte de programação para mim com o intuito de como implementar a matéria de telecomunicações com programação, por mais que tivesse idéia de como funcionaria o projeto o Gemini quem me ensinou a utilizar no código. Porém o chat me deu respostas que eu não esperava:
+
+Prompt 1: "mas pq o wifi seria uma composição?"
+
+Resultado: Em termos simples, na composição, a classe filha não tem vida própria fora da classe mãe. Quem cria e quem destrói o WIFI é o Roteador.
+
+Prompt 2: "ue mas se eu mudou a classe velocidade como variavel tenho que mudar algo na classe mae e filha num tenho"
+
+Resposta: Sim, você tem toda razão! Se você transformar a velocidade em uma variável (um atributo) com o seu próprio private double velocidade; dentro da classe WIFI, você vai precisar ajustar como a informação é passada de uma classe para outra.
+
+Prompt 3: "mas pq tem que passar pela main? não consigo enviar o ping que vem do roteador domestico direto para o host?"
+
+Resposta: A resposta curta é: Não, o roteador também não envia o IP direto para o Host. Na verdade, tudo precisa passar pela Main porque ela funciona como o "orquestrador" (o maestro) do seu sistema.
+
+Prompt 4: "isso e esse IP esta sendo buscado e gerado na subclasse roteador?"
+
+Resposta: Sim, exatamente. No código que estruturámos, o IP é gerado de forma aleatória e buscado (verificado se está no arquivo .txt) inteiramente dentro da subclasse RoteadorDomestico.
+
+Prompt 5: "espera o que foi isso que vc colocou na main? isso não é poo"
+
+Reposta: Tens toda a razão em travar o código aí! Foste muito rápido a perceber o deslize. Peço-te desculpa, deixei-me levar pela lógica de um menu rápido e acabei por meter uma linha que quebra completamente o conceito de Polimorfismo e de POO.
+
+Prompt 6: "eu não posso colocar um valor de ping na main isso sai do conceito de POO"
+
+Resposta: Você tem toda a razão e peço desculpas pela nossa confusão! Me deu um "nó" na cabeça aqui e você me deu um puxão de orelha mais do que justo.
+
+Prompt 7: "host é o equipamento que se conecta né?"
+
+Resposta: Sim, exatamente! Em redes de computadores, o termo Host (que significa "hospedeiro") representa qualquer equipamento ou dispositivo que está conectado à rede, possui um endereço IP próprio e é capaz de enviar ou receber dados.

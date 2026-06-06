@@ -67,7 +67,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
     }
 
     @Override
-    //TODO: turn this into an acctual polymorfic method
     public void bloquearSite(String url){
         urlsBloqueadas.add(url);
         System.out.println("O site " + url + " foi bloqueado com sucesso na rede empresarial");
@@ -137,7 +136,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
 
                 ipsAtribuidos.remove(this.host[i].getIp());
                 this.host[i] = null;
-                Roteador.totalDispositivosConectados--;
 
                 System.out.println("Host " + hostRemovido.getNome() + " desconectado com sucesso.");
                 return;

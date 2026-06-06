@@ -1,11 +1,13 @@
 package classes;
 
-import enumns.Protocolo;
+import enums.Protocolo;
 import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
+import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoLeituraArquivos;
+import tratamentoexcecoes.ExcecaoRemoverHOST;
 
 import java.util.Random;
-
 
 public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     private String senhaWifi;
@@ -20,7 +22,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     }
 
     public void ativarControleParental(){
-        //TODO: show this to Lidia, because it still doesn't make sense to me to have a method that only prints something...
         if (controleParentalAtivo) {
             System.out.println("O controle parental foi ativado com sucesso. Agora você terá acesso ao que a sua criança acessar e conseguirá bloquear conteudos indesejados.");
         } else {
@@ -28,9 +29,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         }
     }
 
-
-
-    //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help), I will only erase this todo when we finish this corrections
     @Override
     public void gerarIP(){
         Random random = new Random();
@@ -55,33 +53,22 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         }
     }
 
-    public Protocolo verificarProtocoloIP(){
-        if(lerArquivosIPs().contains(ipRoteador)){
-            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP"); //I REFUSE to use a todo again... This method is the one that returns the protocol, but the rest of the code uses "cat" and "pig", this needs to change!);
-            return Protocolo.PIG;
-        }
-
-        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
-        return Protocolo.CAT;
-    }
-
     //superclass methods
-    //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
-    //TODO: implement the exeptions handling on classesfilhas.RoteadorPortatil
     @Override
     public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
+
         try{
             gerarIP();
 
             if(ipRoteador == null){
-                throw new ExcecaoAtribuirHOST("O roteador ainda não tem um IP atribuído");
+                throw new ExcecaoAtribuirIP("O roteador ainda não tem um IP atribuído");
             }
 
             ipsAtribuidos.add(ipRoteador);
-            System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador doméstico " + this.getModelo() + " com sucesso!");
+            System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador empresarial " + this.getModelo() + " com sucesso!");
             Roteador.totalDispositivosConectados++;
 
-        } catch (ExcecaoAtribuirHOST e) {
+        } catch (ExcecaoAtribuirIP e) {
             System.out.println("Erro ao atribuir IP: " + e.getMessage());
         }
     }
@@ -90,7 +77,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     public void bloquearSite(String url){
         urlsBloqueadas.add(url);
         System.out.println("O site " + url + " foi bloqueado com sucesso");
-        //TODO: add some integration with the controlePArental later
     }
 
     @Override
@@ -107,14 +93,55 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
     }
 
-    //The classes.Roteador expects that this will be used for checking if the ip is already assigned, but it would make more sense to be a way to connect to the wifi, otherwise. wifi would never really be used.
-    //TODO: talk about with the group AND point out that it would be cooler to shown the Wifi velocity when connecting
     @Override
-    public void conectar(String ip) throws ExcecaoAtribuirHOST {//The AtribuirIP method alredy handle this, and it makes more sense to be there, this will also need to change, the name is not ok
-        if(senhaWifi == null || senhaWifi.isEmpty()){
-            throw new ExcecaoAtribuirHOST("A senha não foi configurada");
+    public void conectar(Host novoHost) throws ExcecaoAtribuirHOST {
+        try{
+            this.atribuirIP(null);
+        }catch(ExcecaoAtribuirIP e){
+            throw new ExcecaoAtribuirHOST(e.getMessage());
         }
-        System.out.println("Conectado com sucesso ao roteador " + this.getModelo());
+
+        boolean hostConectado = false;
+
+        for (int i = 0; i < this.host.length; i++){
+            if(this.host[i] == null){
+                this.host[i] = novoHost;
+
+                try {
+                    Protocolo protocoloValidado = verificarProtocoloIP(this.ipRoteador);
+                    int pingDefinido = (protocoloValidado == Protocolo.PIG) ? 32 : 100;
+                    this.host[i].configurarConexao(this.ipRoteador, protocoloValidado.name(), pingDefinido);
+                    
+                } catch (ExcecaoLeituraArquivos e) {
+                    throw new ExcecaoAtribuirHOST("Falha ao configurar a rede no Host: " + e.getMessage());
+                }
+
+                System.out.println("Host " + novoHost.getNome() + " conectado com sucesso ao roteador" + this.getModelo());
+                new Thread(this.host[i]).start();
+                hostConectado = true;
+                break;
+            }
+        }
+
+        if(!hostConectado){
+            throw new ExcecaoAtribuirHOST("Erro: não há portas disponíveis para conectar o host");
+        }
+    }
+
+    @Override
+    public void desconectar(Host hostRemovido) throws ExcecaoRemoverHOST {
+        for (int i = 0; i < this.host.length; i++){
+            if(this.host[i] == hostRemovido){
+
+                ipsAtribuidos.remove(this.host[i].getIp());
+                this.host[i] = null;
+
+                System.out.println("Host " + hostRemovido.getNome() + " desconectado com sucesso.");
+                return;
+            
+            }
+        }
+        throw new ExcecaoRemoverHOST("O host " + hostRemovido.getNome() + " não está conectado a este roteador domestico.");
     }
 
     //interface methods

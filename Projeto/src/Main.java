@@ -15,9 +15,9 @@ public class Main {
 
         while (opcao != 4) {
             System.out.println("\nSelecione qual roteador deseja utilizar para a simulação:");
-            System.out.println("1 - Roteador Doméstico (Velocidade: 300 Mbps)");
-            System.out.println("2 - Roteador Empresarial (Velocidade: 300 Mbps)");
-            System.out.println("3 - Roteador Portátil (Velocidade: 11 Mbps)");
+            System.out.println("1 - Roteador Doméstico (Testar USB e Controle Parental)");
+            System.out.println("2 - Roteador Empresarial (Testar Firewall e Gestão de Tráfego)");
+            System.out.println("3 - Roteador Portátil (Testar Operadora e Bateria)");
             System.out.println("4 - Sair do Programa");
             System.out.print("Sua opção: ");
             opcao = scanner.nextInt();
@@ -53,52 +53,67 @@ public class Main {
 
             System.out.println("\n--- Iniciando Processamento de Infraestrutura de Rede ---");
 
-            // Executa a lógica baseada na escolha do usuário
+            // Executa a lógica baseada na escolha do usuário e testa TODAS as funcionalidades
             switch (opcao) {
                 case 1:
-                    // Instancia o doméstico passando a velocidade de 300.0 Mbps
                     RoteadorDomestico domestico = new RoteadorDomestico(
-                            "TP-Link", "Archer C6", 249.90, "192.168.1.1", "senha123", false, null
+                            "TP-Link", "Archer C6", 249.90, "192.168.1.1", "senha123", true, null
                     );
-                    System.out.println("Roteador selecionado: Doméstico " + domestico.getModelo());
-                    // Conecta e injeta as configurações em cada Host
+                    System.out.println("\n[CONFIGURAÇÃO] Roteador selecionado: Doméstico " + domestico.getModelo());
+
+                    // Testando métodos exclusivos e de interface
+                    domestico.ativarControleParental();
+                    domestico.bloquearSite("cassino-online.com");
+                    domestico.montarUnidadeUSB(64.0);
+
+                    // Conecta os Hosts
                     for (Host h : hostsDestaRodada) {
                         try {
                             domestico.conectar(h);
                         } catch (ExcecaoAtribuirHOST e) {
-                            System.out.println("Erro ao conectar dispositivo: " + e.getMessage());
+                            System.err.println("Erro ao conectar dispositivo: " + e.getMessage());
                         }
                     }
+                    domestico.ejetarUnidade();
                     break;
 
                 case 2:
-                    // Instancia o empresarial passando a velocidade de 300.0 Mbps
                     RoteadorEmpresarial empresarial = new RoteadorEmpresarial(
                             "Cisco", "Catalyst 9000", 1850.00, "10.0.0.1", "LICENCA-FIREWALL-2026", null
                     );
-                    System.out.println("Roteador selecionado: Empresarial " + empresarial.getModelo());
+                    System.out.println("\n[CONFIGURAÇÃO] Roteador selecionado: Empresarial " + empresarial.getModelo());
+
+                    // Testando métodos exclusivos
+                    empresarial.bloquearSite("redes-sociais.com");
+                    empresarial.atualizarIP("10.0.0.2"); // Força a atualização de IP
+
                     for (Host h : hostsDestaRodada) {
                         try {
                             empresarial.conectar(h);
                         } catch (ExcecaoAtribuirHOST e) {
-                            System.out.println("Erro ao conectar dispositivo: " + e.getMessage());
+                            System.err.println("Erro ao conectar dispositivo: " + e.getMessage());
                         }
                     }
+                    // Chama a gestão de tráfego após os hosts estarem nas portas
+                    System.out.println("\n[SISTEMA] Acionando o balanceamento de carga da empresa...");
+                    empresarial.gerenciarTrafego();
                     break;
 
                 case 3:
-                    // Instancia o portátil passando os atributos específicos e a velocidade de 11.0 Mbps
                     RoteadorPortatil portatil = new RoteadorPortatil(
-                            "Huawei", "Pocket-WiFi 4G", 399.90, "192.168.43.1", 85.0, "Vivo"
+                            "Huawei", "Pocket-WiFi 4G", 399.90, "192.168.43.1", 12.0, "Vivo"
                     );
-                    System.out.println("Roteador selecionado: Portátil " + portatil.getModelo());
-                    portatil.conectarRedeCelular(); // Metodo específico do portátil
-                    portatil.alertarBateriaFraca(); // Metodo específico do portátil
+                    System.out.println("\n[CONFIGURAÇÃO] Roteador selecionado: Portátil " + portatil.getModelo());
+
+                    // Testando métodos exclusivos
+                    portatil.conectarRedeCelular();
+                    portatil.alertarBateriaFraca(); // Vai disparar alerta pois coloquei 12.0 no construtor
+
                     for (Host h : hostsDestaRodada) {
                         try {
                             portatil.conectar(h);
                         } catch (ExcecaoAtribuirHOST e) {
-                            System.out.println("Erro ao conectar dispositivo: " + e.getMessage());
+                            System.err.println("Erro ao conectar dispositivo: " + e.getMessage());
                         }
                     }
                     break;
@@ -107,29 +122,27 @@ public class Main {
             // =========================================================================
             // DISPARO DO MEIO FÍSICO: Executa a concorrência (Multithreading)
             // =========================================================================
-            System.out.println("\n📶 Dispositivos configurados! Ativando as Threads de transmissão concorrente...\n");
-            Thread[] threads = new Thread[qtdEquipamentos];
+            System.out.println("\n📶 Dispositivos configurados! Verificando Threads de transmissão concorrente...\n");
 
-            // 1. Cria e inicia todas as Threads ao mesmo tempo para rodarem juntas
+            // ATENÇÃO: Como você deixou o "new Thread(this.host[i]).start();" DENTRO dos métodos conectar()
+            // e gerenciarTrafego(), as threads já estão rodando!
+            // Este bloco abaixo agora serve apenas para fazer um JOIN simbólico na Main
+            // caso queira aguardar processos futuros ou tratar falhas graves de IP nulo.
+
+            boolean falhaGeral = false;
             for (int i = 0; i < qtdEquipamentos; i++) {
-                // SÓ DISPARA A THREAD SE A CONEXÃO DEU CERTO E O IP NÃO É NULO
-                if (hostsDestaRodada[i].getIp() != null) {
-                    threads[i] = new Thread(hostsDestaRodada[i]); // Host implementa Runnable
-                    threads[i].start(); // Dispara o método run() do Host em paralelo
-                } else {
-                    System.out.println("❌ A Thread do equipamento [" + hostsDestaRodada[i].getNome() + "] foi cancelada devido à falha de configuração de rede.");
+                if (hostsDestaRodada[i].getIp() == null) {
+                    System.err.println("❌ A Thread do equipamento [" + hostsDestaRodada[i].getNome() + "] falhou na rede. IP nulo.");
+                    falhaGeral = true;
                 }
             }
 
-            // 2. Garante que o menu principal espere as transmissões terminarem
-            for (int i = 0; i < qtdEquipamentos; i++) {
-                // SÓ ESPERA (JOIN) SE A THREAD REALMENTE TIVER SIDO CRIADA
-                if (threads[i] != null) {
-                    try {
-                        threads[i].join();
-                    } catch (InterruptedException e) {
-                        System.out.println("Erro ao sincronizar a transmissão dos dados.");
-                    }
+            if(!falhaGeral) {
+                // Apenas dá um tempo para as Threads que já foram disparadas internamente nas classes terminarem seus prints no console
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -138,9 +151,9 @@ public class Main {
             // =========================================================================
             System.out.println("\n-------------------------------------------------------");
             System.out.println("📊 RELATÓRIO DE TRÁFEGO E INFRAESTRUTURA:");
-            System.out.println("➡️ Total de dispositivos conectados no sistema (geral): " + Roteador.getTotalDispositivosConectados());
+            System.out.println("➡️ Total de dispositivos validados no sistema (geral): " + Roteador.getTotalDispositivosConectados());
             System.out.println("-------------------------------------------------------");
-            System.out.println("Simulação da rodada finalizada com sucesso!");
+            System.out.println("Simulação da rodada finalizada!");
             System.out.println("-------------------------------------------------------");
         }
         scanner.close();

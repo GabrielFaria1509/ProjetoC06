@@ -19,9 +19,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
         this.ipRoteador = null;
     }
 
-
-    //unique methods
-
     //superclass methods
     @Override
     public void gerarIP(){
@@ -148,6 +145,32 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
             }
         }
         throw new ExcecaoRemoverHOST("O host " + hostRemovido.getNome() + " não está conectado a este roteador.");
+    }
+
+    //unique method
+    public void gerenciarTrafego() {
+
+        int hostsAtivos = 0;
+
+        for (int i = 0; i < this.host.length; i++) {
+            if (this.host[i] != null) {
+                hostsAtivos++;
+            }
+        }
+        double cargaAtual = ((double) hostsAtivos / this.host.length) * 100.0;
+
+        System.out.println("Gerenciando tráfego. Carga atual calculada: " + cargaAtual + "% (" + hostsAtivos + " instâncias ativas)");
+        
+        for (int i = 0; i < this.host.length; i++) {
+            if (this.host[i] != null) {
+                if (cargaAtual > 80.0) {
+                    this.host[i].configurarConexao(this.host[i].getIp(), Protocolo.CAT.name(), 180);
+                } else {
+                    this.host[i].configurarConexao(this.host[i].getIp(), Protocolo.PIG.name(), 32);
+                }
+                new Thread(this.host[i]).start();
+            }
+        }
     }
 
     //interface methods

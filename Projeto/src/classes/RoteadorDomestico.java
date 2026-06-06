@@ -9,7 +9,6 @@ import tratamentoexcecoes.ExcecaoRemoverHOST;
 
 import java.util.Random;
 
-
 public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     private String senhaWifi;
     private boolean controleParentalAtivo;
@@ -23,7 +22,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     }
 
     public void ativarControleParental(){
-        //TODO: show this to Lidia, because it still doesn't make sense to me to have a method that only prints something...
         if (controleParentalAtivo) {
             System.out.println("O controle parental foi ativado com sucesso. Agora você terá acesso ao que a sua criança acessar e conseguirá bloquear conteudos indesejados.");
         } else {
@@ -31,9 +29,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         }
     }
 
-
-
-    //TODO: the ip related methods should be abstracts methods in the superclass (aparently, I will have as many "to-dos" as lines of code... help), I will only erase this todo when we finish this corrections
     @Override
     public void gerarIP(){
         Random random = new Random();
@@ -59,8 +54,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     }
 
     //superclass methods
-    //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
-    //TODO: implement the exeptions handling on classesfilhas.RoteadorPortatil
     @Override
     public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
 

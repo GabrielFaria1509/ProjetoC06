@@ -6,7 +6,7 @@ import enums.Protocolo;
 import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
-import tratamentoexcecoes.ExcecaoVerificarProtocolo;
+import tratamentoexcecoes.ExcecaoRemoverHOST;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
 
 public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB {
@@ -131,6 +131,23 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
         if(!hostConectado){
             throw new ExcecaoAtribuirHOST("Erro: não há portas disponíveis para conectar o host");
         }
+    }
+
+    @Override
+    public void desconectar(Host hostRemovido) throws ExcecaoRemoverHOST {
+        for (int i = 0; i < this.host.length; i++){
+            if(this.host[i] == hostRemovido){
+
+                ipsAtribuidos.remove(this.host[i].getIp());
+                this.host[i] = null;
+                Roteador.totalDispositivosConectados--;
+
+                System.out.println("Host " + hostRemovido.getNome() + " desconectado com sucesso.");
+                return;
+            
+            }
+        }
+        throw new ExcecaoRemoverHOST("O host " + hostRemovido.getNome() + " não está conectado a este roteador.");
     }
 
     //interface methods

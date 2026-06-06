@@ -4,6 +4,7 @@ import enums.Protocolo;
 import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
+import tratamentoexcecoes.ExcecaoLeituraArquivos;
 
 import java.util.Random;
 
@@ -82,7 +83,6 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     public void bloquearSite(String url){
         urlsBloqueadas.add(url);
         System.out.println("O site " + url + " foi bloqueado com sucesso");
-        //TODO: add some integration with the controlePArental later
     }
 
     @Override
@@ -99,14 +99,39 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         System.out.println("IP atualizado com sucesso! O novo IP do roteador é: " + ipRoteador);
     }
 
-    //The classes.Roteador expects that this will be used for checking if the ip is already assigned, but it would make more sense to be a way to connect to the wifi, otherwise. wifi would never really be used.
-    //TODO: talk about with the group AND point out that it would be cooler to shown the Wifi velocity when connecting
     @Override
-    public void conectar(String ip) throws ExcecaoAtribuirHOST {//The AtribuirIP method alredy handle this, and it makes more sense to be there, this will also need to change, the name is not ok
-        if(senhaWifi == null || senhaWifi.isEmpty()){
-            throw new ExcecaoAtribuirHOST("A senha não foi configurada");
+    public void conectar(Host novoHost) throws ExcecaoAtribuirHOST {
+        try{
+            this.atribuirIP(null);
+        }catch(ExcecaoAtribuirIP e){
+            throw new ExcecaoAtribuirHOST(e.getMessage());
         }
-        System.out.println("Conectado com sucesso ao roteador " + this.getModelo());
+
+        boolean hostConectado = false;
+
+        for (int i = 0; i < this.host.length; i++){
+            if(this.host[i] == null){
+                this.host[i] = novoHost;
+
+                try {
+                    Protocolo protocoloValidado = verificarProtocoloIP(this.ipRoteador);
+                    int pingDefinido = (protocoloValidado == Protocolo.PIG) ? 32 : 100;
+                    this.host[i].configurarConexao(this.ipRoteador, protocoloValidado.name(), pingDefinido);
+                    
+                } catch (ExcecaoLeituraArquivos e) {
+                    throw new ExcecaoAtribuirHOST("Falha ao configurar a rede no Host: " + e.getMessage());
+                }
+
+                System.out.println("Host " + novoHost.getNome() + " conectado com sucesso ao roteador" + this.getModelo());
+                new Thread(this.host[i]).start();
+                hostConectado = true;
+                break;
+            }
+        }
+
+        if(!hostConectado){
+            throw new ExcecaoAtribuirHOST("Erro: não há portas disponíveis para conectar o host");
+        }
     }
 
     //interface methods

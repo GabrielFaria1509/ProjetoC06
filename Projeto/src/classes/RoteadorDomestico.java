@@ -1,8 +1,9 @@
 package classes;
 
-import enumns.Protocolo;
+import enums.Protocolo;
 import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
+import tratamentoexcecoes.ExcecaoAtribuirIP;
 
 import java.util.Random;
 
@@ -55,33 +56,24 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
         }
     }
 
-    public Protocolo verificarProtocoloIP(){
-        if(lerArquivosIPs().contains(ipRoteador)){
-            System.out.println("O IP " + ipRoteador + " possui o protocolo TCP"); //I REFUSE to use a todo again... This method is the one that returns the protocol, but the rest of the code uses "cat" and "pig", this needs to change!);
-            return Protocolo.PIG;
-        }
-
-        System.out.println("O IP " + ipRoteador + " possui o protocolo UDP");
-        return Protocolo.CAT;
-    }
-
     //superclass methods
     //TODO: The code is NOT as it should be, based on the UML, u must update it to match the code (yep, good luck...)
     //TODO: implement the exeptions handling on classesfilhas.RoteadorPortatil
     @Override
     public void atribuirIP(String ip) throws ExcecaoAtribuirIP{
+
         try{
             gerarIP();
 
             if(ipRoteador == null){
-                throw new ExcecaoAtribuirHOST("O roteador ainda não tem um IP atribuído");
+                throw new ExcecaoAtribuirIP("O roteador ainda não tem um IP atribuído");
             }
 
             ipsAtribuidos.add(ipRoteador);
-            System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador doméstico " + this.getModelo() + " com sucesso!");
+            System.out.println("O IP: " + ipRoteador + " foi atribuito ao roteador empresarial " + this.getModelo() + " com sucesso!");
             Roteador.totalDispositivosConectados++;
 
-        } catch (ExcecaoAtribuirHOST e) {
+        } catch (ExcecaoAtribuirIP e) {
             System.out.println("Erro ao atribuir IP: " + e.getMessage());
         }
     }

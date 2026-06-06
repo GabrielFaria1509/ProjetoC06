@@ -15,7 +15,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
     private String ipRoteador;
 
     public RoteadorDomestico(String marca, String modelo, double preco, String gateway, String senhaWifi, boolean controleParentalAtivo, String ipRoteador) {
-        super(marca, modelo, preco, gateway);
+        super(marca, modelo, preco, gateway,300);
         this.senhaWifi = senhaWifi;
         this.controleParentalAtivo = controleParentalAtivo;
         this.ipRoteador = null;

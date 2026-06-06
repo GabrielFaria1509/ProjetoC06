@@ -18,6 +18,7 @@ public abstract class Roteador {
     protected String modelo;
     protected String gateway;
     protected double preco;
+    protected double velocidade_roteador;
     protected static int totalDispositivosConectados = 0;  //inicia zero
     //Composição com Wifi
     protected WIFI wifi;
@@ -33,18 +34,18 @@ public abstract class Roteador {
     protected ArrayList<String> urlsBloqueadas = new ArrayList<>();
 
     // Criando o construtor Casa.classes.Roteador(junto com wi fi)
-    public Roteador(String marca, String modelo, double preco, String gateway) {
+    public Roteador(String marca, String modelo, double preco, String gateway,double velocidade_roteador) {
         this.marca = marca;
         this.modelo = modelo;
         this.preco = preco;
         this.gateway = gateway;
-        this.wifi = new WIFI();
+        this.wifi = new WIFI(velocidade_roteador);
     }
 
     //Criando metodo para ler arquivo.txt e devolver um vetor com cada IP
     //Throws é para sinalizar que deve tratar exceção ou quem chama o metodo use try catch
     public String[] lerArquivosIPs() throws ExcecaoLeituraArquivos{
-        String caminho = "arquivo.txt";
+        String caminho = "src/arquivo.txt";
 
         try{
             List<String> linhas = Files.readAllLines(Paths.get(caminho));

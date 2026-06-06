@@ -1,24 +1,31 @@
 package classes;
 
-public class WIFI { // Se o seu arquivo físico chama classes.WIFI.java, a classe fica assim
+public class WIFI {
+    // A velocidade agora é uma variável (atributo) protegida da classe
+    private double velocidadewifi;
+    private int pingMs;
 
-    protected double velocidade;
-
-    // LINHA 9: O nome aqui precisa ser idêntico ao da classe (Tudo Maiúsculo) ✅
-    public WIFI() {
-        this.velocidade = 0.0;
+    // O construtor recebe a velocidade e já calcula o ping automático
+    public WIFI(double velocidadewifi) {
+        this.velocidadewifi = velocidadewifi;
+        this.calcularPing();
     }
 
-    // LINHA 14: Aqui também! ✅
-    public WIFI(double velocidade) {
-        this.velocidade = velocidade;
+    // A lógica de redes que decide o ping com base na sua variável
+    private void calcularPing() {
+        if (this.velocidadewifi >= 300.0) {
+            this.pingMs = 60; // Rede rápida -> Latência baixa
+        } else {
+            this.pingMs = 180; // Rede lenta -> Latência alta
+        }
     }
 
-    public double getVelocidade() {
-        return velocidade;
+    // Getters para a Main e o Roteador conseguirem ler os valores
+    public int getPingMs() {
+        return this.pingMs;
     }
 
-    public void setVelocidade(double velocidade) {
-        this.velocidade = velocidade;
+    public double getVelocidadewifi() {
+        return this.velocidadewifi;
     }
 }

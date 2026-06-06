@@ -14,7 +14,7 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
     private String ipRoteador;
 
     public RoteadorEmpresarial(String marca, String modelo, double preco, String gateway, String licencaFirewall, String ipRoteador) {
-        super(marca, modelo, preco, gateway);
+        super(marca, modelo, preco, gateway,300);
         this.licencaFirewall = licencaFirewall;
         this.ipRoteador = null;
     }

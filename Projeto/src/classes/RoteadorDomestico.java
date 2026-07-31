@@ -38,7 +38,7 @@ public class RoteadorDomestico extends Roteador implements CompartilhamentoUSB {
             int suffix = random.nextInt(253)+2;
             String ipTemporario = "192.168.1." + suffix; 
 
-            if(ipTemporario != this.gateway && !ipsAtribuidos.contains(ipTemporario)){
+            if(!ipTemporario.equals(this.gateway) && !ipsAtribuidos.contains(ipTemporario)){
                 this.ipRoteador = ipTemporario;
                 System.out.println("o IP " + ipRoteador + " foi atribuído ao roteador com sucesso!");
                 return;

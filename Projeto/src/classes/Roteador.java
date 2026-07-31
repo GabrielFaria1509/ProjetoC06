@@ -40,12 +40,13 @@ public abstract class Roteador {
         this.preco = preco;
         this.gateway = gateway;
         this.wifi = new WIFI(velocidade_roteador);
+        this.velocidade_roteador = velocidade_roteador;
     }
 
     //Criando metodo para ler arquivo.txt e devolver um vetor com cada IP
     //Throws é para sinalizar que deve tratar exceção ou quem chama o metodo use try catch
     public String[] lerArquivosIPs() throws ExcecaoLeituraArquivos{
-        String caminho = "src/arquivo.txt";
+        String caminho = "C:\\Users\\miria\\OneDrive\\Área de Trabalho\\ProjetoC06\\Projeto\\arquivo.txt";
 
         try{
             List<String> linhas = Files.readAllLines(Paths.get(caminho));

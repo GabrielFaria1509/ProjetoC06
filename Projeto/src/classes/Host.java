@@ -4,8 +4,8 @@ package classes;
 public class Host implements Runnable {
 
     // Atributos originais da sua UML
-    protected String ip;
-    protected String nome;
+    private String ip;
+    private String nome;
 
     // Atributos novos que vão estar dentro das subclasses roteadores
     private String protocolo; // Vai receber "PIG" ou "CAT"

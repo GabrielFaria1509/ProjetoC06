@@ -9,7 +9,7 @@ import tratamentoexcecoes.ExcecaoLeituraArquivos;
 import tratamentoexcecoes.ExcecaoRemoverHOST;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
 
-public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB {
+public class RoteadorEmpresarial extends Roteador{
     private String licencaFirewall;
     private String ipRoteador;
 
@@ -170,19 +170,6 @@ public class RoteadorEmpresarial extends Roteador implements CompartilhamentoUSB
             }
         }
     }
-
-    //interface methods
-    @Override
-    public void montarUnidadeUSB(double capacidade) {
-        System.out.println("Unidade USB montada com capacidade de " + capacidade + " GB");
-    }
-
-    @Override
-    public boolean ejetarUnidade() {
-        System.out.println("Unidade USB ejetada com sucesso");
-        return true;
-    }
-
     //getters and setters
     public String getLicencaFirewall() {
         return licencaFirewall;

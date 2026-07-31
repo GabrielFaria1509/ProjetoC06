@@ -1,12 +1,13 @@
 package classes;
 
+import interfaces.CompartilhamentoUSB;
 import tratamentoexcecoes.ExcecaoAtribuirHOST;
 import tratamentoexcecoes.ExcecaoAtribuirIP;
 import tratamentoexcecoes.ExcecaoRemoverHOST;
 import tratamentoexcecoes.ExcecaoLeituraArquivos;
 import enums.Protocolo;
 
-public class RoteadorPortatil extends Roteador {
+public class RoteadorPortatil extends Roteador implements CompartilhamentoUSB {
 
     // Atributos específicos da classe segundo o UML
     private double nivelBateria;
@@ -96,6 +97,7 @@ public class RoteadorPortatil extends Roteador {
                 }
 
                 System.out.println("✅ Dispositivo " + novoHost.getNome() + " conectado com sucesso ao " + this.getModelo() + "!");
+                new Thread(this.host[i]).start();
                 inseridoComSucesso = true;
                 break;
             }
@@ -138,6 +140,19 @@ public class RoteadorPortatil extends Roteador {
         System.out.println("Conectando à rede celular da operadora " + this.operadora + "...");
         return true;
     }
+
+    //interface methods
+    @Override
+    public void montarUnidadeUSB(double capacidade) {
+        System.out.println("Unidade USB montada com capacidade de " + capacidade + " GB");
+    }
+
+    @Override
+    public boolean ejetarUnidade() {
+        System.out.println("Unidade USB ejetada com sucesso");
+        return true;
+    }
+
 
     // --- Getters e Setters ---
     public double getNivelBateria() {

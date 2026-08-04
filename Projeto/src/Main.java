@@ -9,11 +9,11 @@ import tratamentoexcecoes.ExcecaoAtribuirHOST;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int opcao = 0;
+        int opcao;
 
         System.out.println("====== SISTEMA DE SIMULAÇÃO DE REDES E PROTOCOLOS ======");
 
-        while (opcao != 4) {
+        do{
             System.out.println("\nSelecione qual roteador deseja utilizar para a simulação:");
             System.out.println("1 - Roteador Doméstico (Testar USB e Controle Parental)");
             System.out.println("2 - Roteador Empresarial (Testar Firewall e Gestão de Tráfego)");
@@ -23,13 +23,12 @@ public class Main {
             opcao = scanner.nextInt();
             scanner.nextLine(); // Limpa o buffer do teclado
 
-            if (opcao == 4) {
-                System.out.println("\nEncerrando o simulador de rede. Até logo!");
-                break;
-            }
-
             if (opcao < 1 || opcao > 4) {
                 System.out.println("Opção inválida! Tente novamente.");
+                continue;
+            }
+
+            if (opcao == 4) {
                 continue;
             }
 
@@ -142,7 +141,8 @@ public class Main {
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+
                 }
             }
 
@@ -155,7 +155,8 @@ public class Main {
             System.out.println("-------------------------------------------------------");
             System.out.println("Simulação da rodada finalizada!");
             System.out.println("-------------------------------------------------------");
-        }
+        }while(opcao!=4);
+        System.out.println("\nEncerrando o simulador de rede. Até logo!");
         scanner.close();
     }
 }
